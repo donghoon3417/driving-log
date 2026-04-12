@@ -1,15 +1,47 @@
+/* =========================
+   기본 레이아웃
+========================= */
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #f5f5f5;
 }
 
+/* =========================
+   상단 탭
+========================= */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #ddd;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+.tabs button.active {
+  background: pink;
+}
+
+/* =========================
+   버튼 / 입력
+========================= */
 button {
   padding: 8px;
   margin: 4px;
   border: none;
   border-radius: 6px;
   background: #ddd;
+  cursor: pointer;
 }
 
 button.active {
@@ -23,46 +55,126 @@ input {
   margin: 5px 0;
 }
 
-table {
+/* =========================
+   입력 페이지
+========================= */
+#pageWrite {
   width: 100%;
-  border-collapse: collapse;
-  display: block;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 차량 / 운전자 */
+#carSection,
+#nameSection {
+  text-align: center;
+  width: 100%;
+}
+
+#carSection button,
+#nameSection button {
+  margin: 4px;
+}
+
+/* 입력칸 */
+#pageWrite input {
+  max-width: 400px;
+}
+
+/* 저장 버튼 */
+#pageWrite button[onclick="save()"] {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* =========================
+   이력 페이지
+========================= */
+#pageHistory {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 날짜 조회 영역 */
+.date-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.date-row input {
+  width: 140px;
+  padding: 6px;
+}
+
+.date-row button {
+  padding: 6px 10px;
+}
+
+/* =========================
+   테이블 영역 (핵심)
+========================= */
+#list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* 스크롤 컨테이너 */
+.table-wrap {
+  width: 100%;
+  max-width: 700px;
   overflow-x: auto;
 }
 
+/* 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+/* 셀 */
 td,
 th {
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 8px;
   text-align: center;
 }
 
-.tabs {
+th {
+  background: #f0f0f0;
+}
+
+tr:hover {
+  background: #fafafa;
+}
+
+/* =========================
+   페이지네이션
+========================= */
+.pagination {
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.tabs button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: #ddd;
-  font-weight: bold;
-}
-
-.tabs button.active {
-  background: pink;
-  color: black;
-}
-
-/* ⭐ 인쇄 */
+/* =========================
+   인쇄
+========================= */
 @media print {
   body * {
     visibility: hidden;
   }
 
-  /* 🔥 여기 수정됨 */
   #printArea,
   #printArea * {
     visibility: visible;
@@ -77,111 +189,5 @@ th {
 
   table {
     width: 100%;
-    page-break-after: auto;
   }
-
-  tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
-  }
-
-  thead {
-    display: table-header-group;
-  }
-
-  tfoot {
-    display: table-footer-group;
-  }
-}
-#pageHistory {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 조회 영역 */
-.date-filter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-/* 테이블 영역 */
-#list {
-  width: 100%;
-  max-width: 700px; /* 🔥 크기 제한 */
-}
-
-/* 테이블 */
-table {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  border-collapse: collapse;
-  background: white;
-}
-
-/* 셀 */
-td,
-th {
-  padding: 8px;
-  text-align: center;
-  border: 1px solid #ccc;
-}
-#pageWrite {
-  width: 100%;
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#carSection,
-#nameSection {
-  text-align: center;
-  width: 100%;
-}
-
-#carSection button,
-#nameSection button {
-  margin: 4px;
-}
-#pageWrite input {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  margin-bottom: 8px;
-}
-#pageWrite button[onclick="save()"] {
-  width: 100%;
-  max-width: 400px;
-}
-.date-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap; /* 모바일 대응 */
-  margin: 10px 0;
-}
-
-.date-row input {
-  width: 140px;
-  padding: 6px;
-}
-
-.date-row button {
-  padding: 6px 10px;
-}
-.pagination {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-#list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }

@@ -148,6 +148,7 @@ function renderTable() {
 `;
 
     document.getElementById("list").innerHTML = html;
+    `<div class="table-wrap">${html}</div>`;
 }
 
 // 페이지 이동
