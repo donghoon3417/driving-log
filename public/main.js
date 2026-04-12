@@ -140,12 +140,12 @@ function renderTable() {
     html += "</table>";
 
     html += `
-      <div style="margin-top:10px;">
-        <button onclick="prevPage()">◀</button>
-        <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
-        <button onclick="nextPage()">▶</button>
-      </div>
-    `;
+  <div class="pagination">
+    <button onclick="prevPage()">◀</button>
+    <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
+    <button onclick="nextPage()">▶</button>
+  </div>
+`;
 
     document.getElementById("list").innerHTML = html;
 }

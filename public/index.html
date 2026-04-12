@@ -83,7 +83,7 @@
         <button onclick="selectName(this, '이경준')">이경준</button>
       </div>
 
-      <div>
+      <div style="display: flex; flex-direction: column; align-items: center">
         <input id="date" type="date" />
         <input id="start" placeholder="출발지" />
         <input id="end" placeholder="도착지" />
@@ -95,8 +95,9 @@
 
     <!-- 이력 -->
     <div id="pageHistory" style="display: none">
-      <div style="margin: 10px 0">
+      <div class="date-row">
         <input type="date" id="startDate" />
+        <span>~</span>
         <input type="date" id="endDate" />
         <button onclick="filterByDate()">조회</button>
         <button onclick="printFiltered()">🖨 기간 인쇄</button>
