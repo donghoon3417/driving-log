@@ -8,7 +8,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <link rel="stylesheet" href="style.css" />
-    
   </head>
 
   <body>
@@ -29,6 +28,7 @@
         <button onclick="selectCar(this, '니로1')">니로 5653</button>
         <button onclick="selectCar(this, '니로2')">니로 5572</button>
         <button onclick="selectCar(this, '니로3')">니로 6785</button>
+        <button onclick="selectCar(this, 'EV3 [40거 3247]')">EV3 3247</button>
       </div>
 
       <div id="nameSection">
@@ -49,12 +49,12 @@
 
     <!-- 이력 -->
     <div id="pageHistory" style="display: none">
-      <div style="margin:10px 0;">
-  <input type="date" id="startDate">
-  <input type="date" id="endDate">
-  <button onclick="filterByDate()">조회</button>
-  <button onclick="printFiltered()">🖨 기간 인쇄</button>
-</div>
+      <div style="margin: 10px 0">
+        <input type="date" id="startDate" />
+        <input type="date" id="endDate" />
+        <button onclick="filterByDate()">조회</button>
+        <button onclick="printFiltered()">🖨 기간 인쇄</button>
+      </div>
       <button onclick="loadList()">새로고침</button>
       <button onclick="printAll()">🖨 전체 인쇄</button>
 
