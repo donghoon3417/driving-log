@@ -1,156 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBUKtCNUrnSvaCTC6OUa49SrhCJDHc-HgM",
-  authDomain: "driving-log-e15fc.firebaseapp.com",
-  projectId: "driving-log-e15fc",
-  storageBucket: "driving-log-e15fc.firebasestorage.app",
-  messagingSenderId: "459098205609",
-  appId: "1:459098205609:web:130c4ae425dc3f8910e8b8",
-  measurementId: "G-NHJDHXF17P"
-};
+    <link rel="stylesheet" href="style.css" />
+    
+  </head>
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-</script>
+  <body>
+    <h2>운행관리</h2>
 
-<style>
-body { font-family:Arial; padding:10px; }
-button { padding:10px; margin:5px; }
-input { padding:10px; width:100%; margin:5px 0; }
-table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
-td, th { border:1px solid #ccc; padding:5px; text-align:center; }
-</style>
-</head>
+    <!-- 탭 -->
+    <div class="tabs">
+      <button id="tabWrite" class="active" onclick="showPage('write')">
+        운행일지
+      </button>
+      <button id="tabHistory" onclick="showPage('history')">운행이력</button>
+    </div>
 
-<body>
+    <!-- 입력 -->
+    <div id="pageWrite">
+      <div id="carSection">
+        <h4>🚗 차량 선택</h4>
+        <button onclick="selectCar(this, '니로1')">니로 5653</button>
+        <button onclick="selectCar(this, '니로2')">니로 5572</button>
+        <button onclick="selectCar(this, '니로3')">니로 6785</button>
+      </div>
 
-<h2>운행일지</h2>
+      <div id="nameSection">
+        <h4>👤 운행자</h4>
+        <button onclick="selectName(this, '김동훈')">김동훈</button>
+        <button onclick="selectName(this, '임정근')">임정근</button>
+        <button onclick="selectName(this, '문진기')">문진기</button>
+      </div>
 
-<div>
-  <input id="car" placeholder="차량">
-  <input id="name" placeholder="이름">
-  <input id="start" placeholder="출발지">
-  <input id="end" placeholder="도착지">
-  <input id="km" type="number" placeholder="km">
-  <input id="note" placeholder="비고">
-  <button onclick="save()">저장</button>
+      <div>
+        <input id="start" placeholder="출발지" />
+        <input id="end" placeholder="도착지" />
+        <input id="km" type="number" placeholder="km" />
+        <input id="note" placeholder="비고" />
+        <button onclick="save()">저장</button>
+      </div>
+    </div>
+
+    <!-- 이력 -->
+    <div id="pageHistory" style="display: none">
+      <div style="margin:10px 0;">
+  <input type="date" id="startDate">
+  <input type="date" id="endDate">
+  <button onclick="filterByDate()">조회</button>
+  <button onclick="printFiltered()">🖨 기간 인쇄</button>
 </div>
+      <button onclick="loadList()">새로고침</button>
+      <button onclick="printAll()">🖨 전체 인쇄</button>
 
-<hr>
+      <div id="printArea">
+        <div id="list"></div>
+      </div>
+    </div>
 
-<button onclick="loadList()">목록 불러오기</button>
-<div id="list"></div>
-
-<script>
-
-// 저장
-async function save(){
-
-  const data = {
-    car: car.value,
-    name: name.value,
-    start: start.value,
-    end: end.value,
-    km: km.value,
-    note: note.value
-  };
-
-  if(!data.car || !data.name || !data.km){
-    alert("필수 입력");
-    return;
-  }
-
-  const today = new Date().toISOString().split("T")[0];
-
-  if(window.editId){
-
-    await db.collection("driveLogs").doc(window.editId).update({
-      ...data,
-      km: Number(data.km)
-    });
-
-    window.editId = null;
-
-  }else{
-
-    await db.collection("driveLogs").add({
-      date: today,
-      ...data,
-      km: Number(data.km)
-    });
-
-  }
-
-  alert("완료");
-  loadList();
-}
-
-// 목록
-async function loadList(){
-
-  const snapshot = await db.collection("driveLogs")
-    .orderBy("date","desc")
-    .get();
-
-  let html = "<table><tr><th>날짜</th><th>차량</th><th>이름</th><th>km</th><th>관리</th></tr>";
-
-  snapshot.forEach(doc=>{
-    const d = doc.data();
-
-    html += `
-    <tr>
-      <td>${d.date}</td>
-      <td>${d.car}</td>
-      <td>${d.name}</td>
-      <td>${d.km}</td>
-      <td>
-        <button onclick="edit('${doc.id}')">수정</button>
-        <button onclick="del('${doc.id}')">삭제</button>
-      </td>
-    </tr>`;
-  });
-
-  html += "</table>";
-  list.innerHTML = html;
-}
-
-// 수정
-async function edit(id){
-
-  const doc = await db.collection("driveLogs").doc(id).get();
-  const d = doc.data();
-
-  car.value = d.car;
-  name.value = d.name;
-  start.value = d.start;
-  end.value = d.end;
-  km.value = d.km;
-  note.value = d.note;
-
-  window.editId = id;
-}
-
-// 삭제
-async function del(id){
-
-  if(!confirm("삭제?")) return;
-
-  await db.collection("driveLogs").doc(id).delete();
-
-  alert("삭제됨");
-  loadList();
-}
-
-</script>
-
-</body>
+    <!-- ✅ main.js 연결 -->
+    <script src="main.js"></script>
+  </body>
 </html>

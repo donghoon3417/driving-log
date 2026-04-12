@@ -1,0 +1,93 @@
+body {
+  font-family: Arial;
+  padding: 10px;
+}
+
+button {
+  padding: 8px;
+  margin: 4px;
+  border: none;
+  border-radius: 6px;
+  background: #ddd;
+}
+
+button.active {
+  background: #4caf50;
+  color: white;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  margin: 5px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+
+td,
+th {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #ddd;
+  font-weight: bold;
+}
+
+.tabs button.active {
+  background: pink;
+  color: black;
+}
+
+/* ⭐ 인쇄 */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  /* 🔥 여기 수정됨 */
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  #printArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    page-break-after: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+}
