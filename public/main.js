@@ -72,7 +72,7 @@ async function save() {
     // ⭐ 신규 저장
     else {
         await db.collection("driveLogs").add({
-            date: document.getElementById("date").value,
+            date: selectedDate || new Date().toISOString().split("T")[0], // ⭐ 핵심,
             timestamp: now,
             ...data,
             km: Number(data.km)
