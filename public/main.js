@@ -37,7 +37,7 @@ function selectName(btn, name) {
 
 // 저장 (⭐ 수정/신규 통합)
 async function save() {
-
+    const selectedDate = document.getElementById("date").value;
     if (!db) {
         alert("Firebase 아직 로딩 안됨");
         return;
@@ -46,6 +46,7 @@ async function save() {
     const data = {
         car: selectedCar,
         name: selectedName,
+        date: selectedDate || new Date().toISOString().split("T")[0], // ⭐ 핵심
         start: start.value,
         end: end.value,
         km: km.value,
