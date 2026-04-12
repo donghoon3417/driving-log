@@ -113,18 +113,20 @@ function renderTable() {
     const endIdx = startIdx + pageSize;
     const pageData = allData.slice(startIdx, endIdx);
 
-    let html = `
-    <table>
-      <tr>
-        <th>날짜</th>
-        <th>차량</th>
-        <th>이름</th>
-        <th>km</th>
-        <th>관리</th>
-      </tr>`;
+    // 테이블 HTML
+    let htmlTable = `
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>날짜</th>
+          <th>차량</th>
+          <th>이름</th>
+          <th>km</th>
+          <th>관리</th>
+        </tr>`;
 
     pageData.forEach(d => {
-        html += `
+        htmlTable += `
         <tr>
           <td>${d.date}</td>
           <td>${d.car}</td>
@@ -137,18 +139,20 @@ function renderTable() {
         </tr>`;
     });
 
-    html += "</table>";
+    htmlTable += `
+      </table>
+    </div>`;
 
-    html += `
-  <div class="pagination">
-    <button onclick="prevPage()">◀</button>
-    <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
-    <button onclick="nextPage()">▶</button>
-  </div>
-`;
+    // 페이지 버튼 HTML
+    let htmlPagination = `
+    <div class="pagination">
+      <button onclick="prevPage()">◀</button>
+      <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
+      <button onclick="nextPage()">▶</button>
+    </div>`;
 
-    document.getElementById("list").innerHTML = html;
-    `<div class="table-wrap">${html}</div>`;
+    // 최종 출력
+    document.getElementById("list").innerHTML = htmlTable + htmlPagination;
 }
 
 // 페이지 이동
