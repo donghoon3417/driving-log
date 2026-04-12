@@ -1,89 +1,156 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.12.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.12.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.12.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBUKtCNUrnSvaCTC6OUa49SrhCJDHc-HgM",
+  authDomain: "driving-log-e15fc.firebaseapp.com",
+  projectId: "driving-log-e15fc",
+  storageBucket: "driving-log-e15fc.firebasestorage.app",
+  messagingSenderId: "459098205609",
+  appId: "1:459098205609:web:130c4ae425dc3f8910e8b8",
+  measurementId: "G-NHJDHXF17P"
+};
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+<style>
+body { font-family:Arial; padding:10px; }
+button { padding:10px; margin:5px; }
+input { padding:10px; width:100%; margin:5px 0; }
+table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
+td, th { border:1px solid #ccc; padding:5px; text-align:center; }
+</style>
+</head>
+
+<body>
+
+<h2>운행일지</h2>
+
+<div>
+  <input id="car" placeholder="차량">
+  <input id="name" placeholder="이름">
+  <input id="start" placeholder="출발지">
+  <input id="end" placeholder="도착지">
+  <input id="km" type="number" placeholder="km">
+  <input id="note" placeholder="비고">
+  <button onclick="save()">저장</button>
+</div>
+
+<hr>
+
+<button onclick="loadList()">목록 불러오기</button>
+<div id="list"></div>
+
+<script>
+
+// 저장
+async function save(){
+
+  const data = {
+    car: car.value,
+    name: name.value,
+    start: start.value,
+    end: end.value,
+    km: km.value,
+    note: note.value
+  };
+
+  if(!data.car || !data.name || !data.km){
+    alert("필수 입력");
+    return;
+  }
+
+  const today = new Date().toISOString().split("T")[0];
+
+  if(window.editId){
+
+    await db.collection("driveLogs").doc(window.editId).update({
+      ...data,
+      km: Number(data.km)
+    });
+
+    window.editId = null;
+
+  }else{
+
+    await db.collection("driveLogs").add({
+      date: today,
+      ...data,
+      km: Number(data.km)
+    });
+
+  }
+
+  alert("완료");
+  loadList();
+}
+
+// 목록
+async function loadList(){
+
+  const snapshot = await db.collection("driveLogs")
+    .orderBy("date","desc")
+    .get();
+
+  let html = "<table><tr><th>날짜</th><th>차량</th><th>이름</th><th>km</th><th>관리</th></tr>";
+
+  snapshot.forEach(doc=>{
+    const d = doc.data();
+
+    html += `
+    <tr>
+      <td>${d.date}</td>
+      <td>${d.car}</td>
+      <td>${d.name}</td>
+      <td>${d.km}</td>
+      <td>
+        <button onclick="edit('${doc.id}')">수정</button>
+        <button onclick="del('${doc.id}')">삭제</button>
+      </td>
+    </tr>`;
+  });
+
+  html += "</table>";
+  list.innerHTML = html;
+}
+
+// 수정
+async function edit(id){
+
+  const doc = await db.collection("driveLogs").doc(id).get();
+  const d = doc.data();
+
+  car.value = d.car;
+  name.value = d.name;
+  start.value = d.start;
+  end.value = d.end;
+  km.value = d.km;
+  note.value = d.note;
+
+  window.editId = id;
+}
+
+// 삭제
+async function del(id){
+
+  if(!confirm("삭제?")) return;
+
+  await db.collection("driveLogs").doc(id).delete();
+
+  alert("삭제됨");
+  loadList();
+}
+
+</script>
+
+</body>
 </html>
