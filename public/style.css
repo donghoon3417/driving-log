@@ -124,7 +124,8 @@ input {
 #list {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* ⭐ 이거 추가 */
+  align-items: center; /* ⭐ 가운데 정렬 */
 }
 
 /* 스크롤 컨테이너 */
