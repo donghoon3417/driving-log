@@ -7,11 +7,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ⭐ 전역 상태 (여기에만 둠)
+// ⭐ 전역 상태
 let selectedCar = "";
 let selectedName = "";
 let allData = [];
 let filteredData = [];
+let editId = null;
+
 let currentPage = 1;
 const pageSize = 10;
 
@@ -33,7 +35,7 @@ function selectName(btn, name) {
     btn.classList.add("active");
 }
 
-// 저장
+// 저장 (⭐ 수정/신규 통합)
 async function save() {
 
     if (!db) {
@@ -57,15 +59,30 @@ async function save() {
 
     const now = new Date();
 
-    await db.collection("driveLogs").add({
-        date: now.toISOString().split("T")[0],
-        timestamp: now,
-        ...data,
-        km: Number(data.km)
-    });
+    // ⭐ 수정 모드
+    if (editId) {
+        await db.collection("driveLogs").doc(editId).update({
+            ...data,
+            km: Number(data.km)
+        });
 
-    alert("완료");
+        editId = null;
+        alert("수정 완료");
+    }
+    // ⭐ 신규 저장
+    else {
+        await db.collection("driveLogs").add({
+            date: document.getElementById("date").value,
+            timestamp: now,
+            ...data,
+            km: Number(data.km)
+        });
+
+        alert("완료");
+    }
+
     loadList();
+    showPage("history");
 }
 
 // 목록 불러오기
@@ -78,13 +95,104 @@ async function loadList() {
     allData = [];
 
     snapshot.forEach(doc => {
-        allData.push(doc.data());
+        allData.push({
+            id: doc.id,
+            ...doc.data()
+        });
     });
 
     currentPage = 1;
-
-    // ⭐ UI 쪽 함수 호출
     renderTable();
+}
+
+// 테이블 렌더링 (⭐ 관리 열 추가)
+function renderTable() {
+
+    const startIdx = (currentPage - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageData = allData.slice(startIdx, endIdx);
+
+    let html = `
+    <table>
+      <tr>
+        <th>날짜</th>
+        <th>차량</th>
+        <th>이름</th>
+        <th>km</th>
+        <th>관리</th>
+      </tr>`;
+
+    pageData.forEach(d => {
+        html += `
+        <tr>
+          <td>${d.date}</td>
+          <td>${d.car}</td>
+          <td>${d.name}</td>
+          <td>${d.km}</td>
+          <td>
+            <button onclick="editRow('${d.id}')">수정</button>
+            <button onclick="deleteRow('${d.id}')" style="background:#ff4d4f;color:white;">삭제</button>
+          </td>
+        </tr>`;
+    });
+
+    html += "</table>";
+
+    html += `
+      <div style="margin-top:10px;">
+        <button onclick="prevPage()">◀</button>
+        <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
+        <button onclick="nextPage()">▶</button>
+      </div>
+    `;
+
+    document.getElementById("list").innerHTML = html;
+}
+
+// 페이지 이동
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+    }
+}
+
+function nextPage() {
+    if (currentPage < Math.ceil(allData.length / pageSize)) {
+        currentPage++;
+        renderTable();
+    }
+}
+
+// 삭제
+async function deleteRow(id) {
+
+    if (!confirm("삭제하시겠습니까?")) return;
+
+    await db.collection("driveLogs").doc(id).delete();
+
+    alert("삭제 완료");
+    loadList();
+}
+
+// 수정
+function editRow(id) {
+
+    const data = allData.find(d => d.id === id);
+
+    selectedCar = data.car;
+    selectedName = data.name;
+
+    document.getElementById("date").value = data.date;
+
+    start.value = data.start;
+    end.value = data.end;
+    km.value = data.km;
+    note.value = data.note;
+
+    editId = id;
+
+    showPage("write");
 }
 
 // 탭 전환
@@ -103,3 +211,8 @@ function showPage(type) {
         loadList();
     }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("date").value = today;
+});

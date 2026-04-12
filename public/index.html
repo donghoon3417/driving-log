@@ -25,9 +25,15 @@
     <div id="pageWrite">
       <div id="carSection">
         <h4>🚗 차량 선택</h4>
-        <button onclick="selectCar(this, '니로1')">니로 5653</button>
-        <button onclick="selectCar(this, '니로2')">니로 5572</button>
-        <button onclick="selectCar(this, '니로3')">니로 6785</button>
+        <button onclick="selectCar(this, '니로1 [33구 5653]')">
+          니로 5653
+        </button>
+        <button onclick="selectCar(this, '니로2 [33구 5572]')">
+          니로 5572
+        </button>
+        <button onclick="selectCar(this, '니로3 [63거 6785]')">
+          니로 6785
+        </button>
         <button onclick="selectCar(this, 'EV3 [40거 3247]')">EV3 3247</button>
         <button onclick="selectCar(this, '아이오닉9 [41너 1060]')">
           아이오닉9
@@ -78,6 +84,7 @@
       </div>
 
       <div>
+        <input id="date" type="date" />
         <input id="start" placeholder="출발지" />
         <input id="end" placeholder="도착지" />
         <input id="km" type="number" placeholder="km" />
@@ -94,8 +101,6 @@
         <button onclick="filterByDate()">조회</button>
         <button onclick="printFiltered()">🖨 기간 인쇄</button>
       </div>
-      <button onclick="loadList()">새로고침</button>
-      <button onclick="printAll()">🖨 전체 인쇄</button>
 
       <div id="printArea">
         <div id="list"></div>
