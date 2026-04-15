@@ -114,13 +114,20 @@ input {
 }
 /* 입력칸 */
 #pageWrite input {
-  max-width: 400px;
+  max-width: 300px;
+  padding: 6px; /* 10 → 6 */
+  font-size: 13px; /* 살짝 축소 */
+  margin: 3px 0; /* 간격 줄임 */
 }
 
+#pageWrite,
+#pageHistory {
+  padding: 0 10px;
+}
 /* 저장 버튼 */
 #pageWrite button[onclick="save()"] {
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 /* =========================
