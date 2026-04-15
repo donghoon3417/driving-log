@@ -44,6 +44,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background: #ccc;
+}
+
 button.active {
   background: #4caf50;
   color: white;
@@ -119,13 +123,13 @@ input {
 }
 
 /* =========================
-   테이블 영역 (핵심)
+   테이블 영역
 ========================= */
 #list {
   width: 100%;
   display: flex;
-  flex-direction: column; /* ⭐ 이거 추가 */
-  align-items: center; /* ⭐ 가운데 정렬 */
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 스크롤 컨테이너 */
@@ -133,6 +137,7 @@ input {
   width: 100%;
   max-width: 700px;
   overflow-x: auto;
+  position: relative; /* ⭐ 드롭다운 기준 */
 }
 
 /* 테이블 */
@@ -152,6 +157,12 @@ th {
 
 th {
   background: #f0f0f0;
+  cursor: pointer;
+  position: relative;
+}
+
+th:hover {
+  background: #e6e6e6;
 }
 
 tr:hover {
@@ -168,16 +179,80 @@ tr:hover {
   gap: 10px;
 }
 
+/* =========================
+   드롭다운 필터 (핵심🔥)
+========================= */
 .filter-popup {
   position: absolute;
-  background: white;
+  background: #fff;
   border: 1px solid #ccc;
-  padding: 10px;
+  width: 260px; /* ⭐ 크기 확대 */
+  max-height: 320px;
   z-index: 999;
-  max-height: 200px;
+  border-radius: 4px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+/* 검색 */
+.filter-search {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.filter-popup input[type="text"] {
+  width: 100%;
+  padding: 6px;
+}
+
+/* 전체선택 */
+.filter-all {
+  padding: 6px 8px;
+  border-bottom: 1px solid #ddd;
+  background: #f7f7f7;
+  font-weight: bold;
+}
+
+/* 리스트 */
+.filter-list {
   overflow-y: auto;
-  width: 180px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-height: 240px;
+}
+
+/* ⭐ 핵심: 가로 정렬 */
+.filter-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* 체크박스 고정 */
+.filter-item input {
+  flex: 0 0 16px;
+  margin: 0;
+}
+
+/* 텍스트 영역 */
+.filter-item span {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap; /* ⭐ 줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 길면 ... */
+}
+
+/* hover */
+.filter-item:hover {
+  background: #eaf2ff;
+}
+
+/* 마지막 줄 */
+.filter-item:last-child {
+  border-bottom: none;
 }
 
 /* =========================
