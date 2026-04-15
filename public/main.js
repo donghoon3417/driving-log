@@ -11,11 +11,22 @@ const db = firebase.firestore();
 let selectedCar = "";
 let selectedName = "";
 let allData = [];
-let filteredData = [];
 let editId = null;
 
 let currentPage = 1;
 const pageSize = 10;
+
+// ⭐ 필터 상태
+let headerFilters = {
+    date: [],
+    car: [],
+    name: [],
+    km: []
+};
+
+let activeFilter = null;
+let filterSearch = "";
+let filterPosition = { top: 0, left: 0 };
 
 // 차량 선택
 function selectCar(btn, car) {
@@ -35,18 +46,14 @@ function selectName(btn, name) {
     btn.classList.add("active");
 }
 
-// 저장 (⭐ 수정/신규 통합)
+// 저장
 async function save() {
     const selectedDate = document.getElementById("date").value;
-    if (!db) {
-        alert("Firebase 아직 로딩 안됨");
-        return;
-    }
 
     const data = {
         car: selectedCar,
         name: selectedName,
-        date: selectedDate || new Date().toISOString().split("T")[0], // ⭐ 핵심
+        date: selectedDate || new Date().toISOString().split("T")[0],
         start: start.value,
         end: end.value,
         km: km.value,
@@ -60,25 +67,19 @@ async function save() {
 
     const now = new Date();
 
-    // ⭐ 수정 모드
     if (editId) {
         await db.collection("driveLogs").doc(editId).update({
             ...data,
             km: Number(data.km)
         });
-
         editId = null;
         alert("수정 완료");
-    }
-    // ⭐ 신규 저장
-    else {
+    } else {
         await db.collection("driveLogs").add({
-            date: selectedDate || new Date().toISOString().split("T")[0], // ⭐ 핵심,
             timestamp: now,
             ...data,
             km: Number(data.km)
         });
-
         alert("완료");
     }
 
@@ -88,7 +89,6 @@ async function save() {
 
 // 목록 불러오기
 async function loadList() {
-
     const snapshot = await db.collection("driveLogs")
         .orderBy("timestamp", "desc")
         .get();
@@ -106,22 +106,127 @@ async function loadList() {
     renderTable();
 }
 
-// 테이블 렌더링 (⭐ 관리 열 추가)
+// ⭐ 필터 열기 (위치 포함)
+function openFilter(key, event) {
+
+    activeFilter = activeFilter === key ? null : key;
+    filterSearch = "";
+
+    if (event) {
+        const rect = event.target.getBoundingClientRect();
+
+        filterPosition = {
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX
+        };
+    }
+
+    renderTable();
+}
+
+// ⭐ 필터 검색
+function setFilterSearch(value) {
+    filterSearch = value.toLowerCase();
+    renderTable();
+}
+
+// ⭐ 체크 토글
+function toggleFilter(key, value) {
+
+    const arr = headerFilters[key];
+
+    if (arr.includes(value)) {
+        headerFilters[key] = arr.filter(v => v !== value);
+    } else {
+        headerFilters[key].push(value);
+    }
+
+    currentPage = 1;
+    renderTable();
+}
+
+// ⭐ 전체 선택 / 해제
+function toggleAllFilter(key, values) {
+
+    if (headerFilters[key].length === values.length) {
+        headerFilters[key] = [];
+    } else {
+        headerFilters[key] = [...values];
+    }
+
+    renderTable();
+}
+
+// ⭐ 필터 팝업
+function renderFilterPopup() {
+
+    if (!activeFilter) return "";
+
+    let values = [...new Set(allData.map(d => d[activeFilter]))];
+
+    if (filterSearch) {
+        values = values.filter(v =>
+            String(v).toLowerCase().includes(filterSearch)
+        );
+    }
+
+    let html = `
+    <div class="filter-popup"
+      style="top:${filterPosition.top}px; left:${filterPosition.left}px;">
+      
+      <input type="text" placeholder="검색"
+        oninput="setFilterSearch(this.value)"
+        style="width:100%;margin-bottom:5px;">
+      
+      <label>
+        <input type="checkbox"
+          onchange='toggleAllFilter("${activeFilter}", ${JSON.stringify(values)})'
+          ${headerFilters[activeFilter].length === values.length ? "checked" : ""}>
+        전체선택
+      </label>
+      <hr>
+    `;
+
+    values.forEach(v => {
+        html += `
+        <label>
+          <input type="checkbox"
+            onchange="toggleFilter('${activeFilter}','${v}')"
+            ${headerFilters[activeFilter].includes(v) ? "checked" : ""}>
+          ${v}
+        </label><br>`;
+    });
+
+    html += `</div>`;
+
+    return html;
+}
+
+// ⭐ 테이블 렌더링
 function renderTable() {
+
+    const filtered = allData.filter(d => {
+        return (
+            (headerFilters.date.length === 0 || headerFilters.date.includes(d.date)) &&
+            (headerFilters.car.length === 0 || headerFilters.car.includes(d.car)) &&
+            (headerFilters.name.length === 0 || headerFilters.name.includes(d.name)) &&
+            (headerFilters.km.length === 0 || headerFilters.km.includes(d.km))
+        );
+    });
 
     const startIdx = (currentPage - 1) * pageSize;
     const endIdx = startIdx + pageSize;
-    const pageData = allData.slice(startIdx, endIdx);
+    const pageData = filtered.slice(startIdx, endIdx);
 
-    // 테이블 HTML
     let htmlTable = `
     <div class="table-wrap">
+      ${renderFilterPopup()}
       <table>
         <tr>
-          <th>날짜</th>
-          <th>차량</th>
-          <th>이름</th>
-          <th>km</th>
+          <th onclick="openFilter('date', event)">날짜 ▼</th>
+          <th onclick="openFilter('car', event)">차량 ▼</th>
+          <th onclick="openFilter('name', event)">이름 ▼</th>
+          <th onclick="openFilter('km', event)">km ▼</th>
           <th>관리</th>
         </tr>`;
 
@@ -139,20 +244,17 @@ function renderTable() {
         </tr>`;
     });
 
-    htmlTable += `
-      </table>
-    </div>`;
+    htmlTable += `</table></div>`;
 
-    // 페이지 버튼 HTML
     let htmlPagination = `
     <div class="pagination">
       <button onclick="prevPage()">◀</button>
-      <span> ${currentPage} / ${Math.ceil(allData.length / pageSize)} </span>
+      <span> ${currentPage} / ${Math.ceil(filtered.length / pageSize) || 1} </span>
       <button onclick="nextPage()">▶</button>
     </div>`;
 
-    // 최종 출력
-    document.getElementById("list").innerHTML = htmlTable + htmlPagination;
+    document.getElementById("list").innerHTML =
+        htmlTable + htmlPagination;
 }
 
 // 페이지 이동
@@ -164,7 +266,17 @@ function prevPage() {
 }
 
 function nextPage() {
-    if (currentPage < Math.ceil(allData.length / pageSize)) {
+
+    const filtered = allData.filter(d => {
+        return (
+            (headerFilters.date.length === 0 || headerFilters.date.includes(d.date)) &&
+            (headerFilters.car.length === 0 || headerFilters.car.includes(d.car)) &&
+            (headerFilters.name.length === 0 || headerFilters.name.includes(d.name)) &&
+            (headerFilters.km.length === 0 || headerFilters.km.includes(d.km))
+        );
+    });
+
+    if (currentPage < Math.ceil(filtered.length / pageSize)) {
         currentPage++;
         renderTable();
     }
@@ -172,7 +284,6 @@ function nextPage() {
 
 // 삭제
 async function deleteRow(id) {
-
     if (!confirm("삭제하시겠습니까?")) return;
 
     await db.collection("driveLogs").doc(id).delete();
@@ -217,6 +328,15 @@ function showPage(type) {
         loadList();
     }
 }
+
+// ⭐ 외부 클릭 시 닫기
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".filter-popup") &&
+        !e.target.closest("th")) {
+        activeFilter = null;
+        renderTable();
+    }
+});
 
 window.addEventListener("DOMContentLoaded", () => {
     const today = new Date().toISOString().split("T")[0];

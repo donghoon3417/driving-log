@@ -168,6 +168,18 @@ tr:hover {
   gap: 10px;
 }
 
+.filter-popup {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 999;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 180px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
 /* =========================
    인쇄
 ========================= */
