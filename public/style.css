@@ -327,4 +327,8 @@ tr:hover {
   table {
     width: 100%;
   }
+  #pageWrite,
+  #pageHistory {
+    padding: 0 12px;
+  }
 }
