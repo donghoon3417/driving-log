@@ -119,6 +119,42 @@ function editRow(id) {
     km.value = data.km;
     note.value = data.note;
 
+    function editRow(id) {
+
+        const data = allData.find(d => d.id === id);
+
+        selectedCar = data.car;
+        selectedName = data.name;
+
+        document.getElementById("date").value = data.date;
+
+        start.value = data.start;
+        end.value = data.end;
+        km.value = data.km;
+        note.value = data.note;
+
+        // ⭐ 여기 추가
+        document.querySelectorAll("#carSection button")
+            .forEach(btn => {
+                btn.classList.remove("active");
+                if (data.car.includes(btn.innerText.trim())) {
+                    btn.classList.add("active");
+                }
+            });
+
+        document.querySelectorAll("#nameSection button")
+            .forEach(btn => {
+                btn.classList.remove("active");
+                if (btn.innerText === data.name) {
+                    btn.classList.add("active");
+                }
+            });
+
+        editId = id;
+
+        showPage("write");
+    }
+
     editId = id;
 
     showPage("write");
@@ -127,7 +163,6 @@ function editRow(id) {
 // 탭
 function showPage(type) {
 
-    // ⭐ 현재 페이지 저장
     localStorage.setItem("currentPageTab", type);
 
     document.getElementById("pageWrite").style.display =
@@ -135,6 +170,16 @@ function showPage(type) {
 
     document.getElementById("pageHistory").style.display =
         type === "history" ? "block" : "none";
+
+    // ⭐ 추가 (핵심)
+    document.getElementById("tabWrite").classList.remove("active");
+    document.getElementById("tabHistory").classList.remove("active");
+
+    if (type === "write") {
+        document.getElementById("tabWrite").classList.add("active");
+    } else {
+        document.getElementById("tabHistory").classList.add("active");
+    }
 
     if (type === "history") loadList();
 }
@@ -145,9 +190,52 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("date").value =
         new Date().toISOString().split("T")[0];
 
-    // ⭐ 저장된 페이지 불러오기
     const savedPage = localStorage.getItem("currentPageTab") || "write";
-
     showPage(savedPage);
-});
 
+    // ⭐ 추가 시작
+    const savedCar = localStorage.getItem("selectedCar");
+    const savedName = localStorage.getItem("selectedName");
+
+    if (savedCar) {
+        selectedCar = savedCar;
+
+        document.querySelectorAll("#carSection button")
+            .forEach(btn => {
+                if (savedCar.includes(btn.innerText.trim())) {
+                    btn.classList.add("active");
+                }
+            });
+    }
+
+    if (savedName) {
+        selectedName = savedName;
+
+        document.querySelectorAll("#nameSection button")
+            .forEach(btn => {
+                if (btn.innerText === savedName) {
+                    btn.classList.add("active");
+                }
+            });
+    }
+    // ⭐ 추가 끝
+});
+window.selectCar = function (btn, car) {
+    document.querySelectorAll("#carSection button")
+        .forEach(b => b.classList.remove("active"));
+
+    selectedCar = car;
+    btn.classList.add("active");
+
+    localStorage.setItem("selectedCar", car); // ⭐ 추가
+};
+
+window.selectName = function (btn, name) {
+    document.querySelectorAll("#nameSection button")
+        .forEach(b => b.classList.remove("active"));
+
+    selectedName = name;
+    btn.classList.add("active");
+
+    localStorage.setItem("selectedName", name); // ⭐ 추가
+};
