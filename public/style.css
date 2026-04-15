@@ -140,10 +140,11 @@ input {
   align-items: center;
 }
 
+/* ⭐ 기본 여백 (모바일 + 폴드 대응) */
 #pageWrite,
 #pageHistory {
-  width: 100%;
-  max-width: 700px; /* ⭐ 페이지 중앙 박스 */
+  padding: 0 12px;
+  box-sizing: border-box;
 }
 
 h2 {
@@ -326,9 +327,5 @@ tr:hover {
 
   table {
     width: 100%;
-  }
-  #pageWrite,
-  #pageHistory {
-    padding: 0 12px;
   }
 }
