@@ -329,3 +329,10 @@ tr:hover {
     width: 100%;
   }
 }
+@media (max-width: 600px) {
+  #pageWrite input {
+    width: 100%;
+    max-width: 100%; /* ⭐ 300 제한 해제 */
+    box-sizing: border-box;
+  }
+}
