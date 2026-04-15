@@ -106,14 +106,15 @@ function renderFilterPopup() {
           oninput="setFilterSearch(this.value)">
       </div>
 
-      <div class="filter-all">
-        <label>
-          <input type="checkbox"
-            onchange='toggleAllFilter("${activeFilter}", ${JSON.stringify(values)})'
-            ${headerFilters[activeFilter].length === values.length ? "checked" : ""}>
-          전체선택
-        </label>
-      </div>
+    <div class="filter-all">
+  <label class="filter-item">
+    <input type="checkbox"
+      onchange='toggleAllFilter("${activeFilter}", ${JSON.stringify(values)})'
+      ${headerFilters[activeFilter].length === values.length ? "checked" : ""}>
+    <span>전체선택</span>
+  </label>
+</div>
+
 
       <div class="filter-list">
     `;

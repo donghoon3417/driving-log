@@ -24,7 +24,8 @@ let headerFilters = {
 
 // 정렬
 let sortOrder = {
-    date: null
+    date: null,
+    km: null   // ⭐ 추가
 };
 
 // 드롭다운 상태
@@ -126,6 +127,9 @@ function editRow(id) {
 // 탭
 function showPage(type) {
 
+    // ⭐ 현재 페이지 저장
+    localStorage.setItem("currentPageTab", type);
+
     document.getElementById("pageWrite").style.display =
         type === "write" ? "block" : "none";
 
@@ -135,7 +139,15 @@ function showPage(type) {
     if (type === "history") loadList();
 }
 
+
 window.addEventListener("DOMContentLoaded", () => {
+
     document.getElementById("date").value =
         new Date().toISOString().split("T")[0];
+
+    // ⭐ 저장된 페이지 불러오기
+    const savedPage = localStorage.getItem("currentPageTab") || "write";
+
+    showPage(savedPage);
 });
+

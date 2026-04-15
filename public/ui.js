@@ -6,6 +6,15 @@ function sortByDate() {
 
   renderTable();
 }
+function sortByKm() {
+
+  if (!sortOrder.km) sortOrder.km = "desc";
+  else if (sortOrder.km === "desc") sortOrder.km = "asc";
+  else sortOrder.km = null;
+
+  renderTable();
+}
+
 
 function getFilteredData() {
 
@@ -21,6 +30,13 @@ function getFilteredData() {
     data.sort((a, b) => a.date.localeCompare(b.date));
   } else if (sortOrder.date === "desc") {
     data.sort((a, b) => b.date.localeCompare(a.date));
+  }
+
+  // ⭐ km 정렬 추가
+  if (sortOrder.km === "asc") {
+    data.sort((a, b) => a.km - b.km);
+  } else if (sortOrder.km === "desc") {
+    data.sort((a, b) => b.km - a.km);
   }
 
   return data;
@@ -41,7 +57,8 @@ function renderTable() {
           <th onclick="sortByDate()">날짜 ▲▼</th>
           <th onclick="openFilter('car', event)">차량 ▼</th>
           <th onclick="openFilter('name', event)">이름 ▼</th>
-          <th onclick="openFilter('km', event)">km ▼</th>
+          <th onclick="sortByKm()">km ▲▼</th>
+
           <th>관리</th>
         </tr>`;
 
