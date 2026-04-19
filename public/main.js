@@ -119,46 +119,29 @@ function editRow(id) {
     km.value = data.km;
     note.value = data.note;
 
-    function editRow(id) {
+    // 차량 선택 유지
+    document.querySelectorAll("#carSection button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+            if (data.car === btn.innerText.trim()) {
+                btn.classList.add("active");
+            }
+        });
 
-        const data = allData.find(d => d.id === id);
-
-        selectedCar = data.car;
-        selectedName = data.name;
-
-        document.getElementById("date").value = data.date;
-
-        start.value = data.start;
-        end.value = data.end;
-        km.value = data.km;
-        note.value = data.note;
-
-        // ⭐ 여기 추가
-        document.querySelectorAll("#carSection button")
-            .forEach(btn => {
-                btn.classList.remove("active");
-                if (data.car.includes(btn.innerText.trim())) {
-                    btn.classList.add("active");
-                }
-            });
-
-        document.querySelectorAll("#nameSection button")
-            .forEach(btn => {
-                btn.classList.remove("active");
-                if (btn.innerText === data.name) {
-                    btn.classList.add("active");
-                }
-            });
-
-        editId = id;
-
-        showPage("write");
-    }
+    // 운행자 선택 유지
+    document.querySelectorAll("#nameSection button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+            if (btn.innerText === data.name) {
+                btn.classList.add("active");
+            }
+        });
 
     editId = id;
 
     showPage("write");
 }
+
 
 // 탭
 function showPage(type) {
@@ -202,7 +185,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         document.querySelectorAll("#carSection button")
             .forEach(btn => {
-                if (savedCar.includes(btn.innerText.trim())) {
+                if (savedCar === btn.innerText.trim()) {
                     btn.classList.add("active");
                 }
             });
