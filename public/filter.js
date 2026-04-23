@@ -1,6 +1,6 @@
 function openFilter(key, event) {
 
-    event.stopPropagation(); // ⭐ 필수
+    event.stopPropagation();
 
     activeFilter = activeFilter === key ? null : key;
     filterSearch = "";
@@ -20,35 +20,46 @@ function openFilter(key, event) {
 }
 
 
-
 function setFilterSearch(value) {
     filterSearch = value.toLowerCase();
-    updateFilterList(); // ⭐ 이걸로 교체
+    updateFilterList();
 }
 
+
+// =======================
+// ⭐ 드롭다운 리스트 갱신
+// =======================
 function updateFilterList() {
 
     let values = [...new Set(allData.map(d => String(d[activeFilter])))];
 
     if (filterSearch) {
-        values = values.filter(v =>
-            v.toLowerCase().includes(filterSearch)
-        );
+        values = values.filter(v => {
+            const label = activeFilter === "car"
+                ? (carMap[v] || v)
+                : v;
+
+            return label.toLowerCase().includes(filterSearch);
+        });
     }
 
     const list = document.querySelector(".filter-list");
-
     if (!list) return;
 
     let html = "";
 
     values.forEach(v => {
+
+        const label = activeFilter === "car"
+            ? (carMap[v] || v)
+            : v;
+
         html += `
         <div class="filter-item">
           <input type="checkbox"
             onchange="toggleFilter('${activeFilter}','${v}')"
             ${headerFilters[activeFilter].includes(v) ? "checked" : ""}>
-          <span>${v}</span>
+          <span>${label}</span>
         </div>`;
     });
 
@@ -56,6 +67,9 @@ function updateFilterList() {
 }
 
 
+// =======================
+// 필터 토글
+// =======================
 function toggleFilter(key, value) {
 
     const arr = headerFilters[key];
@@ -70,6 +84,10 @@ function toggleFilter(key, value) {
     renderTable();
 }
 
+
+// =======================
+// 전체 선택
+// =======================
 function toggleAllFilter(key, values) {
 
     if (headerFilters[key].length === values.length) {
@@ -81,51 +99,61 @@ function toggleAllFilter(key, values) {
     renderTable();
 }
 
+
+// =======================
+// ⭐ 드롭다운 UI
+// =======================
 function renderFilterPopup() {
 
     if (!activeFilter) return "";
 
     let values = [...new Set(allData.map(d => String(d[activeFilter])))];
 
-
     if (filterSearch) {
-        values = values.filter(v =>
-            String(v).toLowerCase().includes(filterSearch)
-        );
+        values = values.filter(v => {
+            const label = activeFilter === "car"
+                ? (carMap[v] || v)
+                : v;
+
+            return label.toLowerCase().includes(filterSearch);
+        });
     }
 
     let html = `
  <div class="filter-popup"
   onclick="event.stopPropagation()"
-    onmousedown="event.stopPropagation()"
+  onmousedown="event.stopPropagation()"
   style="top:${filterPosition.top}px; left:${filterPosition.left}px;">
 
-      
       <div class="filter-search">
         <input type="text" placeholder="검색"
           oninput="setFilterSearch(this.value)">
       </div>
 
     <div class="filter-all">
-  <label class="filter-item">
-    <input type="checkbox"
-      onchange='toggleAllFilter("${activeFilter}", ${JSON.stringify(values)})'
-      ${headerFilters[activeFilter].length === values.length ? "checked" : ""}>
-    <span>전체선택</span>
-  </label>
-</div>
-
+      <label class="filter-item">
+        <input type="checkbox"
+          onchange='toggleAllFilter("${activeFilter}", ${JSON.stringify(values)})'
+          ${headerFilters[activeFilter].length === values.length ? "checked" : ""}>
+        <span>전체선택</span>
+      </label>
+    </div>
 
       <div class="filter-list">
     `;
 
     values.forEach(v => {
+
+        const label = activeFilter === "car"
+            ? (carMap[v] || v)
+            : v;
+
         html += `
         <div class="filter-item">
           <input type="checkbox"
             onchange="toggleFilter('${activeFilter}','${v}')"
             ${headerFilters[activeFilter].includes(v) ? "checked" : ""}>
-          <span>${v}</span>
+          <span>${label}</span>
         </div>`;
     });
 
@@ -134,7 +162,10 @@ function renderFilterPopup() {
     return html;
 }
 
+
+// =======================
 // 외부 클릭 닫기
+// =======================
 document.addEventListener("mousedown", (e) => {
 
     const popup = document.querySelector(".filter-popup");

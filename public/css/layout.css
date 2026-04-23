@@ -1,0 +1,66 @@
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+/* 카드 */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+/* 탭 */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 25%;
+  max-width: 1000px;
+  padding: 0 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 14px; /* 12 → 16 (높이 증가) */
+  font-size: 14px; /* 글자 키움 */
+  font-weight: bold;
+  border-radius: 12px; /* 살짝 둥글게 */
+  max-width: 1000px; /* 700 → 800 */
+}
+
+.tabs button.active {
+  background: #ff6b9a; /* 분홍색 */
+  color: white;
+}
+
+/* 페이지 공통 */
+#pageWrite,
+#pageHistory {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 날짜 */
+.date-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.date-row input {
+  width: 140px;
+}
+
+/* 페이지네이션 */
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

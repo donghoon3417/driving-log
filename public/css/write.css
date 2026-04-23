@@ -1,0 +1,54 @@
+.section-title {
+  font-size: 15px;
+  color: #555;
+  margin: 15px 0 8px;
+  text-align: center;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 90px); /* ⭐ 5열 고정 */
+  justify-content: center; /* ⭐ 가운데 정렬 */
+  gap: 10px;
+}
+
+.button-grid button {
+  width: 90px; /* ⭐ 버튼 크기 통일 */
+  height: 36px;
+  font-size: 12px;
+  padding: 0;
+}
+
+/* 입력 영역 */
+.form-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 입력칸 */
+#pageWrite input {
+  max-width: 320px;
+}
+
+/* 저장 버튼 */
+#pageWrite button[onclick="save()"] {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+  background: #4f7cff;
+  color: white;
+}
+
+#nameSection {
+  margin-bottom: 20px; /* ⭐ 여백 추가 */
+}
+
+.save-btn {
+  background: #4caf50 !important;
+  color: white !important;
+}
+
+.save-btn:hover {
+  background: #43a047 !important;
+}

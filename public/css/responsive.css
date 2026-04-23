@@ -1,0 +1,42 @@
+@media (max-width: 600px) {
+  #pageWrite input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  #startDate,
+  #endDate {
+    width: 110px;
+    font-size: 13px;
+  }
+}
+
+#startDate,
+#endDate {
+  width: 130px;
+  padding: 6px;
+  font-size: 14px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  #printArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+  }
+}

@@ -6,17 +6,24 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/write.css" />
+    <link rel="stylesheet" href="css/history.css" />
+    <link rel="stylesheet" href="css/table.css" />
+    <link rel="stylesheet" href="css/filter.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
   </head>
 
   <body>
-    <h2>운행관리</h2>
+    <h2>운행일지</h2>
 
     <!-- 탭 -->
     <div class="tabs">
       <button id="tabWrite" class="active" onclick="showPage('write')">
-        운행일지
+        운행기록
       </button>
       <button id="tabHistory" onclick="showPage('history')">운행이력</button>
     </div>
@@ -26,40 +33,40 @@
       <div id="carSection">
         <div class="section-title">🚗 차량 선택</div>
         <div class="button-grid">
-          <button onclick="selectCar(this, '니로1 [33구 5653]')">
+          <button data-car="5653" onclick="selectCar(this, '5653')">
             니로 5653
           </button>
-          <button onclick="selectCar(this, '니로2 [33구 5572]')">
+          <button data-car="5572" onclick="selectCar(this, '5572')">
             니로 5572
           </button>
-          <button onclick="selectCar(this, '니로3 [63거 6785]')">
+          <button data-car="6785" onclick="selectCar(this, '6785')">
             니로 6785
           </button>
-          <button onclick="selectCar(this, 'EV3 [40거 3247]')">EV3 3247</button>
-          <button onclick="selectCar(this, '아이오닉9 [41너 1060]')">
-            아이오닉9
+          <button data-car="3247" onclick="selectCar(this, '3247')">
+            EV3 3247
           </button>
-          <button onclick="selectCar(this, '스타리아1 [815서 1036]')">
+
+          <button data-car="1036" onclick="selectCar(this, '1036')">
             스타 1036
           </button>
-          <button onclick="selectCar(this, '스타리아2 [80더 4356]')">
+          <button data-car="4356" onclick="selectCar(this, '4356')">
             스타 4356
           </button>
-          <button onclick="selectCar(this, '윙(리프트) [84루 0891]')">
+          <button data-car="0891" onclick="selectCar(this, '0891')">
             윙 0891
           </button>
 
-          <button onclick="selectCar(this, 'BYD 윙바디1 [97러 2092]')">
-            BYD2092
+          <button data-car="2092" onclick="selectCar(this, '2092')">
+            BYD 2092
           </button>
-          <button onclick="selectCar(this, 'BYD 윙바디2 [97러 1951]')">
-            BYD1951
+          <button data-car="1951" onclick="selectCar(this, '1951')">
+            BYD 1951
           </button>
 
-          <button onclick="selectCar(this, '스타리아3 [95더 5318]')">
+          <button data-car="5318" onclick="selectCar(this, '5318')">
             스타 5318
           </button>
-          <button onclick="selectCar(this, '스타리아4 [95더 5342]')">
+          <button data-car="5342" onclick="selectCar(this, '5342')">
             스타 5342
           </button>
         </div>
@@ -90,9 +97,10 @@
         <input id="date" type="date" />
         <input id="start" placeholder="출발지" />
         <input id="end" placeholder="도착지" />
+
         <input id="km" type="number" placeholder="km" />
         <input id="note" placeholder="비고" />
-        <button onclick="save()">저장</button>
+        <button class="save-btn" onclick="save()">저장</button>
       </div>
     </div>
 
@@ -104,12 +112,23 @@
         <input type="date" id="endDate" />
         <button onclick="filterByDate()">조회</button>
         <button onclick="printFiltered()">🖨 기간 인쇄</button>
+        <button onclick="deleteSelected()">선택 삭제</button>
+        <button onclick="downloadExcel()">엑셀 다운로드</button>
+        <input
+          type="file"
+          id="excelFile"
+          accept=".xlsx, .xls"
+          style="display: none"
+        />
+
+        <button onclick="triggerFile()">엑셀 업로드</button>
       </div>
 
       <div id="printArea">
         <div id="list"></div>
       </div>
     </div>
+    <div class="watermark">김동훈 제작 - ver1.1</div>
 
     <!-- ✅ main.js 연결 -->
     <script src="main.js"></script>
