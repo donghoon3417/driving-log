@@ -21,7 +21,6 @@ button {
   cursor: pointer;
   transition: all 0.2s ease;
 
-  /* 🔥 추가 */
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -44,13 +43,6 @@ input {
   border: 1px solid #ddd;
   border-radius: 10px;
   margin: 5px 0;
-  transition: 0.2s;
-}
-
-input:focus {
-  border-color: #4f7cff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(79, 124, 255, 0.15);
 }
 
 h2 {
@@ -59,80 +51,10 @@ h2 {
   margin: 20px 0;
 }
 
+/* 워터마크 */
 .watermark {
   text-align: center;
-  bottom: 10px;
-  right: 15px;
   font-size: 11px;
-  color: rgba(0, 0, 0, 0.35);
-  letter-spacing: 0.5px;
-}
-
-/* 폴드4 접힘 포함 작은 화면 대응 */
-@media (max-width: 390px) {
-  /* ❌ grid 전체 적용 제거 */
-
-  /* 탭은 flex 유지 */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-
-  .tabs button {
-    flex: 1;
-    max-width: 160px;
-  }
-
-  /* 차량 / 운행자만 grid */
-  #carSection,
-  #nameSection {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  #carSection button,
-  #nameSection button {
-    width: 100%;
-    min-width: 0;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
-}
-@media (max-width: 390px) {
-  .top-buttons,
-  .menu-buttons,
-  .tab-buttons,
-  #carSection,
-  #nameSection {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 🔥 핵심 */
-    gap: 8px;
-  }
-
-  /* 상단 버튼 */
-  .top-buttons button,
-  .menu-buttons button,
-  .tab-buttons button {
-    font-size: 14px;
-    padding: 10px 6px;
-    width: 100%;
-    min-width: 0;
-  }
-
-  /* 차량 / 이름 버튼 */
-  #carSection button,
-  #nameSection button {
-    font-size: 13px;
-    padding: 8px 4px;
-    width: 100%;
-    min-width: 0;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
+  color: rgba(0,0,0,0.35);
+  margin: 10px 0;
 }

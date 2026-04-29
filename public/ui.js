@@ -6,9 +6,6 @@ let dateFilter = {
   end: null
 };
 
-// ⭐ 추가 (선택된 row 저장)
-let selectedRows = new Set();
-
 const carMap = {
   "5653": "니로 5653",
   "5572": "니로 5572",
@@ -22,7 +19,6 @@ const carMap = {
   "5318": "스타 5318",
   "5342": "스타 5342"
 };
-
 
 // =======================
 // 정렬
@@ -44,14 +40,24 @@ function sortByKm() {
 }
 
 // =======================
-// 필터 + 정렬
+// 데이터 필터
 // =======================
-function getFilteredData() {
+function getBaseData() {
+  return allData.filter(d => {
+    if (dateFilter.start && dateFilter.end) {
+      const dDate = new Date(d.date);
+      return dDate >= dateFilter.start && dDate <= dateFilter.end;
+    }
+    return true;
+  });
+}
 
+function getFilteredData() {
   let data = allData.filter(d => {
 
     if (dateFilter.start && dateFilter.end) {
       const dDate = new Date(d.date);
+
       if (dDate < dateFilter.start || dDate > dateFilter.end) {
         return false;
       }
@@ -80,7 +86,7 @@ function getFilteredData() {
 }
 
 // =======================
-// 테이블 렌더링
+// 테이블 출력
 // =======================
 function renderTable() {
 
@@ -88,125 +94,191 @@ function renderTable() {
 
   const startIdx = (currentPage - 1) * pageSize;
   const pageData = filtered.slice(startIdx, startIdx + pageSize);
-  const isAllChecked = pageData.length > 0 &&
+
+  const isAllChecked =
+    pageData.length > 0 &&
     pageData.every(d => selectedRows.has(d.id));
 
-
   let html = `
-    <div class="table-wrap">
-      ${renderFilterPopup()}
-      <table>
-      <tr>
-        <th>
-  <input type="checkbox"
-  ${isAllChecked ? "checked" : ""}
-  onclick="toggleAll(this.checked)">
+  <div class="table-wrap">
+    ${renderFilterPopup()}
 
-</th>
-  <th style="width:100px" onclick="sortByDate()">날짜 ▲▼</th>
-  <th style="width:100px" onclick="openFilter('car', event)">차량 ▼</th>
-  <th onclick="openFilter('name', event)">이름 ▼</th>
-  <th onclick="sortByKm()">km ▲▼</th>
-  <th>비고</th>
+    <table>
+      <colgroup>
+        <col style="width:50px">
+        <col style="width:110px">
+        <col style="width:130px">
+        <col style="width:110px">
+        <col style="width:110px">
+        <col style="width:auto">
+      </colgroup>
 
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox"
+              ${isAllChecked ? "checked" : ""}
+              onclick="toggleAll(this.checked)">
+          </th>
+          <th onclick="sortByDate()">날짜 ▲▼</th>
+          <th onclick="openFilter('car', event)">차량 ▼</th>
+          <th onclick="openFilter('name', event)">이름 ▼</th>
+          <th onclick="sortByKm()">km ▲▼</th>
+          <th>비고</th>
+        </tr>
+      </thead>
 
-</tr>
-`;
+      <tbody>
+  `;
+
+  const emptyCount = pageSize - pageData.length;
 
   pageData.forEach(d => {
     html += `
     <tr>
       <td>
-    <input type="checkbox"
-      ${selectedRows.has(d.id) ? "checked" : ""}
-      onchange="toggleRow('${d.id}', this.checked)">
-  </td>
-  <td>${d.date}</td>
- <td style="width:80px">${carMap[d.car] || d.car}</td>
-
-  <td>${d.name}</td>
-  <td>${Number(d.km).toLocaleString()} km</td>
-  <td>${d.note || ""}</td>
-
-</tr>
-`;
+        <input type="checkbox"
+          ${selectedRows.has(d.id) ? "checked" : ""}
+          onchange="toggleRow('${d.id}', this.checked)">
+      </td>
+      <td>${d.date}</td>
+      <td>${carMap[d.car] || d.car}</td>
+      <td>${d.name}</td>
+      <td>${Number(d.km).toLocaleString()} km</td>
+      <td>${d.note || ""}</td>
+    </tr>
+    `;
   });
 
-  html += `</table></div>`;
+  for (let i = 0; i < emptyCount; i++) {
+    html += `
+    <tr class="empty-row">
+      <td>&nbsp;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    `;
+  }
 
   html += `
-    <div class="pagination">
-      <button onclick="prevPage()">◀</button>
-      <span>${currentPage} / ${Math.ceil(filtered.length / pageSize) || 1}</span>
-      <button onclick="nextPage()">▶</button>
-    </div>`;
+      </tbody>
+    </table>
+  </div>
+  `;
+
+  html += `
+  <div class="pagination">
+    <button onclick="prevPage()">◀</button>
+    <span>${currentPage} / ${Math.ceil(filtered.length / pageSize) || 1}</span>
+    <button onclick="nextPage()">▶</button>
+  </div>
+  `;
 
   document.getElementById("list").innerHTML = html;
 }
 
 // =======================
-// 체크 핸들러
+// 필터 팝업
 // =======================
-window.toggleRow = function (id, checked) {
-  if (checked) selectedRows.add(id);
-  else selectedRows.delete(id);
-};
+function renderFilterPopup() {
+  if (!activeFilter) return "";
 
-// =======================
-// 일괄 삭제
-// =======================
-window.deleteSelected = async function () {
+  return `
+  <div class="filter-popup"
+    style="top:${filterPosition.top}px; left:${filterPosition.left}px;">
 
-  if (selectedRows.size === 0) {
-    alert("선택된 항목 없음");
-    return;
-  }
+    <div class="filter-search">
+      <input type="text" placeholder="검색..."
+        oninput="filterSearch = this.value; renderTable();">
+    </div>
 
-  if (!confirm("선택된 항목 삭제하시겠습니까?")) return;
-
-  for (const id of selectedRows) {
-    await db.collection("driveLogs").doc(id).delete();
-  }
-
-  selectedRows.clear();
-
-  alert("삭제 완료");
-  loadList();
-};
-
-// =======================
-// 페이지 이동
-// =======================
-function prevPage() {
-  if (currentPage > 1) {
-    currentPage--;
-    renderTable();
-  }
+    <div class="filter-list">
+      ${getFilterItems()}
+    </div>
+  </div>
+  `;
 }
 
-function nextPage() {
-  const filtered = getFilteredData();
+function getFilterItems() {
 
-  if (currentPage < Math.ceil(filtered.length / pageSize)) {
-    currentPage++;
-    renderTable();
+  let values = [];
+
+  if (activeFilter === "car") {
+    values = [...new Set(getBaseData().map(d => d.car))];
+  } else if (activeFilter === "name") {
+    values = [...new Set(getBaseData().map(d => d.name))];
+  } else if (activeFilter === "km") {
+    values = [...new Set(getBaseData().map(d => d.km))];
   }
+
+  if (filterSearch) {
+    values = values.filter(v => {
+      const label = activeFilter === "car"
+        ? (carMap[v] || v)
+        : v;
+
+      return String(label)
+        .toLowerCase()
+        .includes(filterSearch.toLowerCase());
+    });
+  }
+
+  const isAllChecked =
+    values.length > 0 &&
+    values.every(v => headerFilters[activeFilter].includes(v));
+
+  return `
+  <div class="filter-all">
+    <label>
+      <input type="checkbox"
+        ${isAllChecked ? "checked" : ""}
+        onchange="toggleAllFilter(this.checked)">
+      전체선택
+    </label>
+  </div>
+
+  ${values.map(v => {
+
+    const label = activeFilter === "car"
+      ? (carMap[v] || v)
+      : v;
+
+    return `
+    <div class="filter-item">
+      <input type="checkbox"
+        ${headerFilters[activeFilter].includes(v) ? "checked" : ""}
+        onchange='toggleFilterValue(${JSON.stringify(v)})'>
+      <span>${label}</span>
+    </div>
+    `;
+  }).join("")}
+  `;
 }
 
-function getBaseData() {
-  return allData.filter(d => {
-    if (dateFilter.start && dateFilter.end) {
-      const dDate = new Date(d.date);
-      return dDate >= dateFilter.start && dDate <= dateFilter.end;
-    }
-    return true;
-  });
+function openFilter(type, event) {
+
+  activeFilter = type;
+
+  const wrap = event.target.closest(".table-wrap");
+  const rect = event.target.getBoundingClientRect();
+  const wrapRect = wrap.getBoundingClientRect();
+
+  filterPosition = {
+    top: rect.bottom - wrapRect.top,
+    left: rect.left - wrapRect.left
+  };
+
+  renderTable();
 }
 
 // =======================
 // 날짜 조회
 // =======================
 window.filterByDate = function () {
+
   const start = document.getElementById("startDate").value;
   const end = document.getElementById("endDate").value;
 
@@ -231,101 +303,21 @@ window.filterByDate = function () {
 };
 
 // =======================
-// 인쇄
+// 페이지 이동
 // =======================
-window.printFiltered = function () {
-
-  const data = getFilteredData();
-
-  if (!data.length) {
-    alert("데이터 없음");
-    return;
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderTable();
   }
+}
 
-  let html = `
-    <h2 style="text-align:center; margin-bottom:10px;">
-      운행일지
-    </h2>
-
-    <table>
-      <tr>
-        <th>날짜</th>
-        <th>차량</th>
-        <th>이름</th>
-        <th>km</th>
-      </tr>
-  `;
-
-  data.forEach(d => {
-    html += `
-      <tr>
-        <td>${d.date}</td>
-       <td>${carMap[d.car] || d.car}</td>
-
-        <td>${d.name}</td>
-        <td>${Number(d.km).toLocaleString()} km</td>
-      </tr>
-    `;
-  });
-
-  html += `</table>`;
-
-  const original = document.getElementById("printArea").innerHTML;
-
-  document.getElementById("printArea").innerHTML = html;
-
-  window.print();
-
-  document.getElementById("printArea").innerHTML = original;
-
-  renderTable();
-};
-
-window.downloadExcel = function () {
-
-  const data = getFilteredData();
-
-  if (!data.length) {
-    alert("데이터 없음");
-    return;
-  }
-
-  // 헤더
-  let csv = "날짜,차량,이름,km,비고\n";
-
-  data.forEach(d => {
-    const carName = carMap[d.car] || d.car;
-
-    csv += `${d.date},${carName},${d.name},${Number(d.km).toLocaleString()} km,"${d.note || ""}"\n`;
-  });
-
-  // BOM 추가 (한글 깨짐 방지)
-  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-
-  a.href = url;
-  a.download = "운행일지.csv";
-  a.click();
-
-  URL.revokeObjectURL(url);
-};
-window.toggleAll = function (checked) {
+function nextPage() {
 
   const filtered = getFilteredData();
 
-  const startIdx = (currentPage - 1) * pageSize;
-  const pageData = filtered.slice(startIdx, startIdx + pageSize);
-
-  pageData.forEach(d => {
-    if (checked) {
-      selectedRows.add(d.id);
-    } else {
-      selectedRows.delete(d.id);
-    }
-  });
-
-  renderTable(); // UI 다시 반영
-};
-
+  if (currentPage < Math.ceil(filtered.length / pageSize)) {
+    currentPage++;
+    renderTable();
+  }
+}

@@ -2,16 +2,22 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  table-layout: fixed; /* ⭐ 필수 */
+  table-layout: fixed;
 }
-
+thead th {
+  position: sticky;
+  top: 0;
+  background: #f0f0f0;
+  z-index: 10;
+}
 th,
 td {
   border: 1px solid #eee;
   padding: 10px;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 th {
@@ -26,36 +32,32 @@ th:hover {
 tr:hover {
   background: #fafbff;
 }
-/* 1: 체크 */
+
 th:nth-child(1),
 td:nth-child(1) {
   width: 50px;
 }
 
-/* 2: 날짜 */
 th:nth-child(2),
 td:nth-child(2) {
-  width: 80px;
+  width: 100px;
 }
 
-/* 3: 차량 */
 th:nth-child(3),
 td:nth-child(3) {
-  width: 10px;
-}
-
-/* 4: 이름 */
-th:nth-child(4),
-td:nth-child(4) {
   width: 120px;
 }
-/* 5: 비고 (남는 공간) */
-th:nth-child(5),
-td:nth-child(5) {
-    width: 120px;
+
+th:nth-child(4),
+td:nth-child(4) {
+  width: 100px;
 }
 
-/* 5: 비고 (남는 공간) */
+th:nth-child(5),
+td:nth-child(5) {
+  width: 100px;
+}
+
 th:nth-child(6),
 td:nth-child(6) {
   width: auto;
