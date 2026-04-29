@@ -125,7 +125,7 @@ function renderTable() {
  <td style="width:80px">${carMap[d.car] || d.car}</td>
 
   <td>${d.name}</td>
-  <td>${d.km}</td>
+  <td>${Number(d.km).toLocaleString()} km</td>
   <td>${d.note || ""}</td>
 
 </tr>
@@ -263,7 +263,7 @@ window.printFiltered = function () {
        <td>${carMap[d.car] || d.car}</td>
 
         <td>${d.name}</td>
-        <td>${d.km}</td>
+        <td>${Number(d.km).toLocaleString()} km</td>
       </tr>
     `;
   });
@@ -296,7 +296,7 @@ window.downloadExcel = function () {
   data.forEach(d => {
     const carName = carMap[d.car] || d.car;
 
-    csv += `${d.date},${carName},${d.name},${d.km},"${d.note || ""}"\n`;
+    csv += `${d.date},${carName},${d.name},${Number(d.km).toLocaleString()} km,"${d.note || ""}"\n`;
   });
 
   // BOM 추가 (한글 깨짐 방지)

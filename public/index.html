@@ -106,10 +106,13 @@
 
     <!-- 이력 -->
     <div id="pageHistory" style="display: none">
-      <div class="date-row">
-        <input type="date" id="startDate" />
-        <span>~</span>
-        <input type="date" id="endDate" />
+ <div class="date-row">
+  <input type="date" id="startDate">
+  <span>~</span>
+  <input type="date" id="endDate">
+</div>
+
+<div class="history-buttons">
         <button onclick="filterByDate()">조회</button>
         <button onclick="printFiltered()">🖨 기간 인쇄</button>
         <button onclick="deleteSelected()">선택 삭제</button>

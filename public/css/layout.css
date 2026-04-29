@@ -1,9 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
 .container {
   width: 100%;
   max-width: 900px;
   margin: 30px auto;
-}
 
+  display: flex; /* 🔥 추가 */
+  flex-direction: column;
+  align-items: center; /* 🔥 핵심 */
+}
 /* 카드 */
 .card {
   background: #fff;
@@ -11,6 +18,9 @@
   padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
+  margin: 0 auto 20px; /* 🔥 가운데 */
+  /* 🔥 추가 (안정장치) */
+  width: 100%;
 }
 
 /* 탭 */
@@ -18,22 +28,25 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-  width: 25%;
-  max-width: 1000px;
-  padding: 0 10px;
+
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center; /* 🔥 추가 */
 }
 
 .tabs button {
   flex: 1;
-  padding: 14px; /* 12 → 16 (높이 증가) */
-  font-size: 14px; /* 글자 키움 */
+  padding: 14px;
+  font-size: 14px;
   font-weight: bold;
-  border-radius: 12px; /* 살짝 둥글게 */
-  max-width: 1000px; /* 700 → 800 */
+  border-radius: 12px;
+  min-width: 0;
 }
 
 .tabs button.active {
-  background: #ff6b9a; /* 분홍색 */
+  background: #ff6b9a;
   color: white;
 }
 
@@ -41,7 +54,6 @@
 #pageWrite,
 #pageHistory {
   width: 100%;
-  box-sizing: border-box;
 }
 
 /* 날짜 */
@@ -51,6 +63,21 @@
   gap: 10px;
   flex-wrap: wrap;
   margin: 10px 0;
+  width: 100%; /* 🔥 추가 */
+}
+
+.date-row,
+.history-buttons {
+  width: 100%;
+  max-width: 500px; /* 🔥 기준 통일 */
+  margin: 0 auto; /* 🔥 진짜 가운데 */
+}
+
+.history-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
 }
 
 .date-row input {
@@ -63,4 +90,40 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+input {
+  max-width: 400px; /* 🔥 추가 */
+  margin: 5px auto; /* 🔥 가운데 */
+  display: block;
+}
+/* 🔥 모바일 (폴드4 완전 대응) */
+@media (max-width: 390px) {
+  .container {
+    padding: 0 10px; /* 🔥 핵심 */
+  }
+
+  .card {
+    padding: 15px; /* 🔥 25 → 15 줄이기 */
+  }
+
+  .tabs {
+    justify-content: center;
+  }
+
+  .tabs button {
+    flex: 1;
+    max-width: 180px; /* 🔥 추가 */
+  }
+  .history-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .history-buttons button {
+    flex: 1 1 calc(50% - 3px);
+    min-width: 0;
+  }
 }
