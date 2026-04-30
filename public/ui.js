@@ -90,6 +90,7 @@ function getFilteredData() {
 // =======================
 function renderTable() {
 
+
   const filtered = getFilteredData();
 
   const startIdx = (currentPage - 1) * pageSize;
@@ -104,14 +105,7 @@ function renderTable() {
     ${renderFilterPopup()}
 
     <table>
-      <colgroup>
-        <col style="width:50px">
-        <col style="width:110px">
-        <col style="width:130px">
-        <col style="width:110px">
-        <col style="width:110px">
-        <col style="width:auto">
-      </colgroup>
+
 
       <thead>
         <tr>
@@ -121,10 +115,14 @@ function renderTable() {
               onclick="toggleAll(this.checked)">
           </th>
           <th onclick="sortByDate()">날짜 ▲▼</th>
-          <th onclick="openFilter('car', event)">차량 ▼</th>
-          <th onclick="openFilter('name', event)">이름 ▼</th>
-          <th onclick="sortByKm()">km ▲▼</th>
-          <th>비고</th>
+<th onclick="openFilter('car', event)">차량 ▼</th>
+<th onclick="openFilter('name', event)">이름 ▼</th>
+
+<th>출발지</th>
+<th>도착지</th>
+
+<th onclick="sortByKm()">km ▲▼</th>
+<th>비고</th>
         </tr>
       </thead>
 
@@ -142,24 +140,30 @@ function renderTable() {
           onchange="toggleRow('${d.id}', this.checked)">
       </td>
       <td>${d.date}</td>
-      <td>${carMap[d.car] || d.car}</td>
-      <td>${d.name}</td>
-      <td>${Number(d.km).toLocaleString()} km</td>
-      <td>${d.note || ""}</td>
+<td>${carMap[d.car] || d.car}</td>
+<td>${d.name}</td>
+
+<td>${d.start || ""}</td>
+<td>${d.end || ""}</td>
+
+<td>${Number(d.km).toLocaleString()} km</td>
+<td>${d.note || ""}</td>
     </tr>
     `;
   });
 
   for (let i = 0; i < emptyCount; i++) {
     html += `
-    <tr class="empty-row">
-      <td>&nbsp;</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+ <tr class="empty-row">
+  <td>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
     `;
   }
 

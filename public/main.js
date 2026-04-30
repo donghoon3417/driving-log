@@ -251,6 +251,8 @@ function saveToFirebase(row) {
         date: dateValue,
         car: row["차량"],
         name: row["이름"],
+        start: row["출발지"] || "",
+        end: row["도착지"] || "",
         km: Number(row["km"]),
         note: row["비고"] || ""
     });

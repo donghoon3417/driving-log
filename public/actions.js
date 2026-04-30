@@ -107,10 +107,12 @@ window.printFiltered = function () {
 
   <table>
     <tr>
-      <th>날짜</th>
-      <th>차량</th>
-      <th>이름</th>
-      <th>km</th>
+     <th>날짜</th>
+<th>차량</th>
+<th>이름</th>
+<th>출발지</th>
+<th>도착지</th>
+<th>km</th>
     </tr>
   `;
 
@@ -120,6 +122,8 @@ window.printFiltered = function () {
       <td>${d.date}</td>
       <td>${carMap[d.car] || d.car}</td>
       <td>${d.name}</td>
+      <td>${d.start || ""}</td>
+      <td>${d.end || ""}</td>
       <td>${Number(d.km).toLocaleString()} km</td>
     </tr>
     `;
@@ -151,7 +155,7 @@ window.downloadExcel = function () {
   }
 
   const rows = [
-    ["날짜", "차량", "이름", "km", "비고"]
+    ["날짜", "차량", "이름", "출발지", "도착지", "km", "비고"]
   ];
 
   data.forEach(d => {
@@ -159,6 +163,8 @@ window.downloadExcel = function () {
       d.date,
       carMap[d.car] || d.car,
       d.name,
+      d.start || "",
+      d.end || "",
       Number(d.km).toLocaleString() + " km",
       d.note || ""
     ]);
@@ -171,6 +177,8 @@ window.downloadExcel = function () {
     { wch: 14 }, // 날짜
     { wch: 16 }, // 차량
     { wch: 12 }, // 이름
+    { wch: 14 }, // 출발지
+    { wch: 14 }, // 도착지
     { wch: 14 }, // km
     { wch: 30 }  // 비고
   ];

@@ -9,6 +9,8 @@
   width: 100%;
   max-width: 900px;
   max-height: 550px;
-  overflow: auto; /* ⭐ 핵심 */
-   position: relative; /* ⭐ 무조건 있어야 함 */
+   overflow-x: auto;
+  overflow-y: auto;
+
+  -webkit-overflow-scrolling: touch; /* ⭐ 모바일 부드러운 스크롤 */
 }

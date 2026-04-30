@@ -2,7 +2,8 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  table-layout: fixed;
+    min-width: 600px;
+  
 }
 thead th {
   position: sticky;
@@ -35,22 +36,22 @@ tr:hover {
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 50px;
+  width: 50px; /* 체크 */
 }
 
 th:nth-child(2),
 td:nth-child(2) {
-  width: 100px;
+  width: 80px;
 }
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 120px;
+  width: 100px;
 }
 
 th:nth-child(4),
 td:nth-child(4) {
-  width: 100px;
+  width: 80px;
 }
 
 th:nth-child(5),
@@ -60,5 +61,21 @@ td:nth-child(5) {
 
 th:nth-child(6),
 td:nth-child(6) {
-  width: auto;
+  width: 100px;
+}
+
+th:nth-child(7),
+td:nth-child(7) {
+  width: 80px;
+}
+
+th:nth-child(8),
+td:nth-child(8) {
+  width: auto; /* 비고 */
+}
+
+@media (max-width: 480px) {
+  table {
+    min-width: 600px;
+  }
 }
