@@ -2,8 +2,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-    min-width: 600px;
-  
+
 }
 thead th {
   position: sticky;

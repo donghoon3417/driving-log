@@ -1,3 +1,39 @@
+/* =========================
+   리스트 영역 (수정됨)
+========================= */
+#list {
+  width: 100%;
+  display: block; /* 🔥 flex 제거 (핵심 수정) */
+  align-items: center;
+}
+
+/* =========================
+   테이블 영역
+========================= */
+.table-wrap {
+  width: 100%;
+  max-width: 900px; /* 🔥 여기로 전체 폭 제한 */
+  max-height: 550px;
+  overflow-x: auto; /* 🔥 가로 스크롤 */
+  overflow-y: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto; /* 🔥 가운데 정렬 */
+}
+
+/* =========================
+   날짜 input
+========================= */
+#startDate,
+#endDate {
+  width: 130px;
+  padding: 6px;
+  font-size: 14px;
+}
+
+/* =========================
+   모바일 대응
+========================= */
 @media (max-width: 600px) {
   #pageWrite input {
     width: 100%;
@@ -12,13 +48,9 @@
   }
 }
 
-#startDate,
-#endDate {
-  width: 130px;
-  padding: 6px;
-  font-size: 14px;
-}
-
+/* =========================
+   인쇄
+========================= */
 @media print {
   body * {
     visibility: hidden;
