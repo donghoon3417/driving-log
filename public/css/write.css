@@ -1,125 +1,79 @@
-/* =========================
-   섹션 구조 (핵심)
-========================= */
+/* 섹션 */
 #carSection,
 #nameSection {
-  display: flex;
-  flex-direction: column; /* ⭐ 제목 위 / 버튼 아래 */
-  align-items: center;
-  width: 100%;
-}
-
-/* =========================
-   제목
-========================= */
-.section-title {
-  width: 100%;
-  font-size: 15px;
-  color: #555;
-  margin: 15px 0 8px;
-  text-align: left; /* ⭐ 가운데보다 자연스러움 */
-}
-
-/* =========================
-   버튼 그리드
-========================= */
-.button-grid {
-  display: grid;
-  width: 100%;
-  gap: 10px;
-}
-
-/* =========================
-   버튼 스타일
-========================= */
-.button-grid button {
-  height: 44px;
-  font-size: 13px;
-  padding: 0 6px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* =========================
-   반응형 (핵심)
-========================= */
-
-/* 기본 (모바일) */
-.button-grid {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-/* Fold / 태블릿 */
-@media (min-width: 600px) {
-  .button-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* 큰 태블릿 */
-@media (min-width: 900px) {
-  .button-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-/* PC */
-@media (min-width: 1200px) {
-  .button-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-/* =========================
-   입력 영역
-========================= */
-.form-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
-#pageWrite input {
-  max-width: 320px;
+.section-title {
+  width: 100%;
+  font-size: 15px;
+  color: #555;
+  margin: 15px 0 8px;
+  text-align: left;
 }
 
-/* =========================
-   저장 버튼
-========================= */
+/* 버튼 그리드 */
+.button-grid {
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.button-grid button {
+  height: 44px;
+  font-size: 13px;
+  padding: 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 반응형 */
+@media (min-width: 900px) {
+  .button-grid {
+    max-width: 600px;
+    margin: 0 auto;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  #carSection,
+  #nameSection {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* 입력 영역 */
+.form-outer {
+  width: 100%;
+  padding: 0 16px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 360px; /* ⭐ 입력 기준 */
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ⭐ 핵심: input은 제한하지 않음 */
+#pageWrite input {
+  width: 100%;
+  display: block;
+}
+
+/* 저장 버튼 */
 .save-btn {
   width: 100%;
-  max-width: 320px;
+  max-width: 360px;
   margin-top: 12px;
   background: #4caf50;
   color: white;
-}
-
-.save-btn:hover {
-  background: #43a047;
-}
-
-/* =========================
-   여백
-========================= */
-#nameSection {
-  margin-bottom: 20px;
-}
-/* PC에서 버튼 영역 좁히기 */
-@media (min-width: 900px) {
-  .button-grid {
-    max-width: 600px; /* ⭐ 핵심: 폭 제한 */
-    margin: 0 auto; /* ⭐ 가운데 정렬 */
-  }
-}
-
-/* PC에서 섹션 자체를 좁힘 */
-@media (min-width: 900px) {
-  #carSection,
-  #nameSection {
-    max-width: 600px; /* ⭐ 버튼이랑 동일하게 */
-    margin: 0 auto; /* ⭐ 가운데 정렬 */
-  }
 }

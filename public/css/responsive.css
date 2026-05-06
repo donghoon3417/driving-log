@@ -1,29 +1,21 @@
-/* =========================
-   리스트 영역 (수정됨)
-========================= */
+/* 리스트 */
 #list {
   width: 100%;
-  display: block; /* 🔥 flex 제거 (핵심 수정) */
-  align-items: center;
+  display: block;
 }
 
-/* =========================
-   테이블 영역
-========================= */
+/* 테이블 */
 .table-wrap {
   width: 100%;
-  max-width: 900px; /* 🔥 여기로 전체 폭 제한 */
+  max-width: 900px;
   max-height: 550px;
-  overflow-x: auto; /* 🔥 가로 스크롤 */
+  overflow-x: auto;
   overflow-y: auto;
   position: relative;
-  -webkit-overflow-scrolling: touch;
-  margin: 0 auto; /* 🔥 가운데 정렬 */
+  margin: 0 auto;
 }
 
-/* =========================
-   날짜 input
-========================= */
+/* 날짜 */
 #startDate,
 #endDate {
   width: 130px;
@@ -31,16 +23,8 @@
   font-size: 14px;
 }
 
-/* =========================
-   모바일 대응
-========================= */
+/* 모바일 */
 @media (max-width: 600px) {
-  #pageWrite input {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
   #startDate,
   #endDate {
     width: 110px;
@@ -48,9 +32,7 @@
   }
 }
 
-/* =========================
-   인쇄
-========================= */
+/* 인쇄 */
 @media print {
   body * {
     visibility: hidden;

@@ -2,24 +2,24 @@
   box-sizing: border-box;
 }
 
+/* 전체 레이아웃 기준 */
 .container {
   width: 100%;
-  max-width: 900px;
-  margin: 30px auto;
+  max-width: 560px; /* ⭐ 전체 폭 */
+  margin: 0 auto;
 
-  display: flex; /* 🔥 추가 */
+  display: flex;
   flex-direction: column;
-  align-items: center; /* 🔥 핵심 */
+  align-items: center;
 }
+
 /* 카드 */
 .card {
   background: #fff;
   border-radius: 16px;
   padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
-  margin: 0 auto 20px; /* 🔥 가운데 */
-  /* 🔥 추가 (안정장치) */
+  margin: 0 auto 20px;
   width: 100%;
 }
 
@@ -33,7 +33,7 @@
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
-  justify-content: center; /* 🔥 추가 */
+  justify-content: center;
 }
 
 .tabs button {
@@ -63,14 +63,14 @@
   gap: 10px;
   flex-wrap: wrap;
   margin: 10px 0;
-  width: 100%; /* 🔥 추가 */
+  width: 100%;
 }
 
 .date-row,
 .history-buttons {
   width: 100%;
-  max-width: 500px; /* 🔥 기준 통일 */
-  margin: 0 auto; /* 🔥 진짜 가운데 */
+  max-width: 560px;
+  margin: 0 auto;
 }
 
 .history-buttons {
@@ -78,10 +78,6 @@
   flex-wrap: wrap;
   gap: 6px;
   justify-content: center;
-}
-
-.date-row input {
-  width: 140px;
 }
 
 /* 페이지네이션 */
@@ -92,38 +88,21 @@
   gap: 10px;
 }
 
-input {
-  max-width: 400px; /* 🔥 추가 */
-  margin: 5px auto; /* 🔥 가운데 */
-  display: block;
-}
-/* 🔥 모바일 (폴드4 완전 대응) */
+/* 모바일 */
 @media (max-width: 390px) {
   .container {
-    padding: 0 10px; /* 🔥 핵심 */
+    padding: 0 12px;
   }
 
   .card {
-    padding: 15px; /* 🔥 25 → 15 줄이기 */
-  }
-
-  .tabs {
-    justify-content: center;
+    padding: 15px;
   }
 
   .tabs button {
-    flex: 1;
-    max-width: 180px; /* 🔥 추가 */
-  }
-  .history-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
+    max-width: 180px;
   }
 
   .history-buttons button {
     flex: 1 1 calc(50% - 3px);
-    min-width: 0;
   }
 }

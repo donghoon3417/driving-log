@@ -29,89 +29,95 @@
 
     <!-- 입력 -->
     <div id="pageWrite">
-      <div id="carSection">
-        <div class="section-title">🚗 차량 선택</div>
-        <div class="button-grid">
-          <button data-car="5653" onclick="selectCar(this, '5653')">
-            니로 5653
-          </button>
-          <button data-car="5572" onclick="selectCar(this, '5572')">
-            니로 5572
-          </button>
-          <button data-car="6785" onclick="selectCar(this, '6785')">
-            니로 6785
-          </button>
-          <button data-car="3247" onclick="selectCar(this, '3247')">
-            EV3 3247
-          </button>
+      <div class="container">
+        <!-- ⭐ 핵심 추가 -->
 
-          <button data-car="1036" onclick="selectCar(this, '1036')">
-            스타 1036
-          </button>
-          <button data-car="4356" onclick="selectCar(this, '4356')">
-            스타 4356
-          </button>
-          <button data-car="0891" onclick="selectCar(this, '0891')">
-            윙 0891
-          </button>
+        <div id="carSection">
+          <div class="section-title">🚗 차량 선택</div>
+          <div class="button-grid">
+            <button data-car="5653" onclick="selectCar(this, '5653')">
+              니로 5653
+            </button>
+            <button data-car="5572" onclick="selectCar(this, '5572')">
+              니로 5572
+            </button>
+            <button data-car="6785" onclick="selectCar(this, '6785')">
+              니로 6785
+            </button>
+            <button data-car="3247" onclick="selectCar(this, '3247')">
+              EV3 3247
+            </button>
 
-          <button data-car="2092" onclick="selectCar(this, '2092')">
-            BYD 2092
-          </button>
-          <button data-car="1951" onclick="selectCar(this, '1951')">
-            BYD 1951
-          </button>
+            <button data-car="1036" onclick="selectCar(this, '1036')">
+              스타 1036
+            </button>
+            <button data-car="4356" onclick="selectCar(this, '4356')">
+              스타 4356
+            </button>
+            <button data-car="0891" onclick="selectCar(this, '0891')">
+              윙 0891
+            </button>
 
-          <button data-car="5318" onclick="selectCar(this, '5318')">
-            스타 5318
-          </button>
-          <button data-car="5342" onclick="selectCar(this, '5342')">
-            스타 5342
-          </button>
+            <button data-car="2092" onclick="selectCar(this, '2092')">
+              BYD 2092
+            </button>
+            <button data-car="1951" onclick="selectCar(this, '1951')">
+              BYD 1951
+            </button>
+
+            <button data-car="5318" onclick="selectCar(this, '5318')">
+              스타 5318
+            </button>
+            <button data-car="5342" onclick="selectCar(this, '5342')">
+              스타 5342
+            </button>
+          </div>
         </div>
-      </div>
-      <div id="nameSection">
-        <div class="section-title">👤 운행자</div>
-        <div class="button-grid">
-          <button onclick="selectName(this, '임정근')">임정근</button>
-          <button onclick="selectName(this, '문진기')">문진기</button>
-          <button onclick="selectName(this, '김대균')">김대균</button>
-          <button onclick="selectName(this, '김윤배')">김윤배</button>
-          <button onclick="selectName(this, '김승국')">김승국</button>
-          <button onclick="selectName(this, '여승걸')">여승걸</button>
-          <button onclick="selectName(this, '노정환')">노정환</button>
-          <button onclick="selectName(this, '박영진')">박영진</button>
-          <button onclick="selectName(this, '장대성')">장대성</button>
-          <button onclick="selectName(this, '이기로')">이기로</button>
-          <button onclick="selectName(this, '서덕원')">서덕원</button>
-          <button onclick="selectName(this, '이현명')">이현명</button>
-          <button onclick="selectName(this, '이선우')">이선우</button>
-          <button onclick="selectName(this, '최인혁')">최인혁</button>
-          <button onclick="selectName(this, '이경준')">이경준</button>
-          <button onclick="selectName(this, '김동훈')">김동훈</button>
+
+        <div id="nameSection">
+          <div class="section-title">👤 운행자</div>
+          <div class="button-grid">
+            <button onclick="selectName(this, '임정근')">임정근</button>
+            <button onclick="selectName(this, '문진기')">문이셈</button>
+            <button onclick="selectName(this, '김대균')">김대균</button>
+            <button onclick="selectName(this, '김윤배')">김윤배</button>
+            <button onclick="selectName(this, '김승국')">김승국</button>
+            <button onclick="selectName(this, '여승걸')">여승걸</button>
+            <button onclick="selectName(this, '노정환')">노정환</button>
+            <button onclick="selectName(this, '장대성')">장대성</button>
+            <button onclick="selectName(this, '이기로')">이기로</button>
+            <button onclick="selectName(this, '서덕원')">서덕원</button>
+            <button onclick="selectName(this, '이현명')">이현명</button>
+            <button onclick="selectName(this, '이선우')">이선우</button>
+            <button onclick="selectName(this, '최인혁')">최인혁</button>
+            <button onclick="selectName(this, '이경준')">이경준</button>
+            <button onclick="selectName(this, '김동훈')">김동훈</button>
+          </div>
         </div>
-      </div>
 
-      <div style="display: flex; flex-direction: column; align-items: center">
-        <input id="date" type="date" />
-        <input id="start" placeholder="출발지" />
-        <input id="end" placeholder="도착지" />
-
-        <input id="km" type="number" placeholder="km" />
-        <input id="note" placeholder="비고" />
-        <button class="save-btn" onclick="save()">저장</button>
+        <!-- 입력 영역 -->
+        <div class="form-outer">
+          <div class="form-box">
+            <input id="date" type="date" />
+            <input id="start" placeholder="출발지" />
+            <input id="end" placeholder="도착지" />
+            <input id="km" type="number" placeholder="km" />
+            <input id="note" placeholder="비고" />
+            <button class="save-btn" onclick="save()">저장</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 이력 -->
     <div id="pageHistory" style="display: none">
- <div class="date-row">
-  <input type="date" id="startDate">
-  <span>~</span>
-  <input type="date" id="endDate">
-</div>
+      <div class="date-row">
+        <input type="date" id="startDate" />
+        <span>~</span>
+        <input type="date" id="endDate" />
+      </div>
 
-<div class="history-buttons">
+      <div class="history-buttons">
         <button onclick="filterByDate()">조회</button>
         <button onclick="printFiltered()">🖨 기간 인쇄</button>
         <button onclick="deleteSelected()">선택 삭제</button>
@@ -122,7 +128,6 @@
           accept=".xlsx, .xls"
           style="display: none"
         />
-
         <button onclick="triggerFile()">엑셀 업로드</button>
       </div>
 
@@ -130,9 +135,9 @@
         <div id="list"></div>
       </div>
     </div>
-    <div class="watermark">김동훈 제작 - ver1.1</div>
 
-    <!-- ✅ main.js 연결 -->
+    <div class="watermark">김동훈 제작 - ver1.4</div>
+
     <script src="main.js"></script>
     <script src="filter.js"></script>
     <script src="ui.js"></script>

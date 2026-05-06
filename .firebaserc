@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "driving-log-e15fc"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
