@@ -88,6 +88,14 @@
   gap: 10px;
 }
 
+#noteSearch {
+  width: 150px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
 /* 모바일 */
 @media (max-width: 390px) {
   .container {

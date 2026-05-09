@@ -66,7 +66,11 @@ function getFilteredData() {
     return (
       (headerFilters.car.length === 0 || headerFilters.car.includes(d.car)) &&
       (headerFilters.name.length === 0 || headerFilters.name.includes(d.name)) &&
-      (headerFilters.km.length === 0 || headerFilters.km.includes(d.km))
+      (headerFilters.km.length === 0 || headerFilters.km.includes(d.km)) &&
+      (
+        !noteSearch ||
+        (d.note || "").toLowerCase().includes(noteSearch)
+      )
     );
   });
 
@@ -122,7 +126,11 @@ function renderTable() {
 <th>도착지</th>
 
 <th onclick="sortByKm()">km ▲▼</th>
-<th>비고</th>
+<th 
+  class="${noteSearch ? 'active-filter' : ''}"
+  onclick="openFilter('noteSearch', event)">
+  비고 ▼
+</th>
         </tr>
       </thead>
 
@@ -143,11 +151,15 @@ function renderTable() {
 <td>${carMap[d.car] || d.car}</td>
 <td>${d.name}</td>
 
-<td>${d.start || ""}</td>
-<td>${d.end || ""}</td>
+<td class="location-cell">${d.start || ""}</td>
+<td class="location-cell">${d.end || ""}</td>
 
 <td>${Number(d.km).toLocaleString()} km</td>
-<td>${d.note || ""}</td>
+<td class="note-column note-cell">
+  <div class="note-text">
+    ${d.note || ""}
+  </div>
+</td>
     </tr>
     `;
   });
@@ -188,14 +200,42 @@ function renderTable() {
 // 필터 팝업
 // =======================
 function renderFilterPopup() {
+
   if (!activeFilter) return "";
 
+  // ⭐ 비고 검색 전용
+  if (activeFilter === "noteSearch") {
+
+    return `
+    <div class="filter-popup"
+      style="
+        top:${filterPosition.top}px;
+        left:${filterPosition.left}px;
+      ">
+
+      <div class="filter-search">
+        <input
+          type="text"
+          placeholder="비고 검색..."
+          value="${noteSearch || ""}"
+          onkeydown="handleNoteSearchPopup(event)"
+          autofocus
+        >
+      </div>
+
+    </div>
+    `;
+  }
+
+  // ⭐ 기존 차량/이름/km 필터
   return `
   <div class="filter-popup"
     style="top:${filterPosition.top}px; left:${filterPosition.left}px;">
 
     <div class="filter-search">
-      <input type="text" placeholder="검색..."
+      <input
+        type="text"
+        placeholder="검색..."
         oninput="filterSearch = this.value; renderTable();">
     </div>
 
@@ -212,10 +252,15 @@ function getFilterItems() {
 
   if (activeFilter === "car") {
     values = [...new Set(getBaseData().map(d => d.car))];
+
   } else if (activeFilter === "name") {
     values = [...new Set(getBaseData().map(d => d.name))];
+
   } else if (activeFilter === "km") {
     values = [...new Set(getBaseData().map(d => d.km))];
+
+  } else if (activeFilter === "note") {
+    values = [...new Set(getBaseData().map(d => d.note || ""))];
   }
 
   if (filterSearch) {

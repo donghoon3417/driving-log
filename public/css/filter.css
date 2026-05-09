@@ -24,6 +24,11 @@
   }
 }
 
+.active-filter {
+  background: #dbeafe !important;
+  color: #2563eb;
+}
+
 /* 검색 영역 */
 .filter-search {
   padding: 10px;
@@ -58,12 +63,11 @@
   background: #f6f8ff;
 }
 
-
-.filter-all label{
-  display:grid;
+.filter-all label {
+  display: grid;
   grid-template-columns: 22px 1fr;
-  align-items:center;
-  gap:8px;
+  align-items: center;
+  gap: 8px;
 }
 
 .filter-all input[type="checkbox"] {

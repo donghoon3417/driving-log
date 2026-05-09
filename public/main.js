@@ -10,6 +10,7 @@ const db = firebase.firestore();
 let selectedCar = "";
 let selectedName = "";
 let allData = [];
+let noteSearch = "";
 
 let currentPage = 1;
 const pageSize = 10;
@@ -18,7 +19,8 @@ const pageSize = 10;
 let headerFilters = {
     car: [],
     name: [],
-    km: []
+    km: [],
+    note: []
 };
 
 // 정렬

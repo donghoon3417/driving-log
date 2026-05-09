@@ -2,22 +2,22 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-
+  table-layout: fixed;
 }
+
 thead th {
   position: sticky;
   top: 0;
   background: #f0f0f0;
   z-index: 10;
 }
+
 th,
 td {
   border: 1px solid #eee;
   padding: 10px;
   text-align: center;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 th {
@@ -33,48 +33,194 @@ tr:hover {
   background: #fafbff;
 }
 
+/* 체크 */
 th:nth-child(1),
 td:nth-child(1) {
-  width: 50px; /* 체크 */
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
 }
 
+/* 날짜 */
 th:nth-child(2),
 td:nth-child(2) {
-  width: 80px;
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
+/* 차량 */
 th:nth-child(3),
 td:nth-child(3) {
   width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
+/* 이름 */
 th:nth-child(4),
 td:nth-child(4) {
   width: 80px;
+  min-width: 80px;
+  max-width: 80px;
 }
 
+/* 출발지 */
 th:nth-child(5),
 td:nth-child(5) {
   width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
+/* 도착지 */
 th:nth-child(6),
 td:nth-child(6) {
   width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
+/* km */
 th:nth-child(7),
 td:nth-child(7) {
-  width: 80px;
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
-th:nth-child(8),
-td:nth-child(8) {
-  width: auto; /* 비고 */
+/* 출발/도착 */
+.location-cell {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
 }
 
-@media (max-width: 480px) {
+/* 비고 셀 */
+.note-cell {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+/* 비고 텍스트 */
+.note-text {
+  display: block;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  line-height: 1.3;
+}
+
+/* 비고 열 고정 */
+.note-column {
+  width: 140px !important;
+  min-width: 140px !important;
+  max-width: 140px !important;
+}
+
+/* 모바일 / 폴드 */
+@media (max-width: 900px) {
   table {
-    min-width: 600px;
+    width: 900px;
+    min-width: 900px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* 체크 */
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+  }
+
+  /* 날짜 */
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+
+  /* 차량 */
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  /* 이름 */
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+  }
+
+  /* 출발지 */
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+  }
+
+  /* 도착지 */
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+  }
+
+  /* km */
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+
+  /* 비고 열 완전 고정 */
+  .note-column {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+  }
+
+  /* 출발/도착 */
+  .location-cell {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+  }
+
+  /* 비고 셀 */
+  .note-cell {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.3;
+  }
+
+  /* 비고 텍스트 */
+  .note-text {
+    display: block;
+
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    line-height: 1.3;
   }
 }

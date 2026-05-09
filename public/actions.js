@@ -188,3 +188,33 @@ window.downloadExcel = function () {
 
   XLSX.writeFile(wb, "운행일지.xlsx");
 };
+
+function handleNoteSearchPopup(event) {
+
+  // ESC → 검색 해제
+  if (event.key === "Escape") {
+
+    noteSearch = "";
+
+    activeFilter = null;
+
+    currentPage = 1;
+
+    renderTable();
+
+    return;
+  }
+
+  // 엔터만 검색
+  if (event.key !== "Enter") return;
+
+  noteSearch = event.target.value
+    .toLowerCase()
+    .trim();
+
+  activeFilter = null;
+
+  currentPage = 1;
+
+  renderTable();
+}
